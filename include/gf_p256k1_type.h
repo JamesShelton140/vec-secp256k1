@@ -44,6 +44,7 @@
 
 #define NLIMBS 4
 #define NLIMBS_VEC 9
+#define NLIMBS_VEC_10 10
 
 #define ALIGN32 __attribute__ ((aligned(32)))
 
@@ -56,6 +57,11 @@ typedef struct {
   uint64 l[NLIMBS_VEC]; 
 }
 gfe_p256k1_9L;
+
+typedef struct {
+  uint64 l[NLIMBS_VEC];
+}
+gfe_p256k1_10L;
 
 typedef uint64 ALIGN32 vec[4];
 

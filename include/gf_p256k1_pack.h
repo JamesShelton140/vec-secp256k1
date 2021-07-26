@@ -47,4 +47,7 @@ void gfp256k1pack(gfe_p256k1_9L *, const uchar8 *);
 void gfp256k1pack94(gfe_p256k1_4L *, const gfe_p256k1_9L *);
 void gfp256k1unpack(uchar8 *, const gfe_p256k1_4L *);
 
+void gfp256k1pack10(gfe_p256k1_10L *, const uchar8 *);
+void gfp256k1pack104(gfe_p256k1_4L *, const gfe_p256k1_10L *);
+
 #endif
