@@ -40,16 +40,16 @@ vpor        %ymm9,%ymm4,%ymm4
 //vmovdqa     %ymm4,128(%rsi)
 
 // Load <p1,p2,p3,p4>
-vmovdqa     0(%rdi),    %ymm5
-vmovdqa     32(%rdi),   %ymm6
-vmovdqa     64(%rdi),   %ymm7
-vmovdqa     96(%rdi),   %ymm8
-vmovdqa     128(%rdi),  %ymm9
-vmovdqa     160(%rdi),  %ymm10
-vmovdqa     192(%rdi),  %ymm11
-vmovdqa     224(%rdi),  %ymm12
-vmovdqa     256(%rdi),  %ymm13
-vmovdqa     288(%rdi),  %ymm14
+vmovdqa     0(%rdx),    %ymm5
+vmovdqa     32(%rdx),   %ymm6
+vmovdqa     64(%rdx),   %ymm7
+vmovdqa     96(%rdx),   %ymm8
+vmovdqa     128(%rdx),  %ymm9
+vmovdqa     160(%rdx),  %ymm10
+vmovdqa     192(%rdx),  %ymm11
+vmovdqa     224(%rdx),  %ymm12
+vmovdqa     256(%rdx),  %ymm13
+vmovdqa     288(%rdx),  %ymm14
 
 // <p1',p2',p3',p4'> ← Pack-N2D(<p1,p2,p3,p4>)
 vpsllq      $32,%ymm10,%ymm10
