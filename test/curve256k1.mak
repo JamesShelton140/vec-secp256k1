@@ -38,33 +38,35 @@
 
 INCDRS = -I../include/
 
-SRCFLS = ../source/curve25519_const.s 		\
-	 ../source/curve25519_mladder.s		\
-	 ../source/curve25519_mladder_base.s	\
-	 ../source/gf_p25519_mulx.s 		\
-	 ../source/gf_p25519_nsqrx.s 		\
-	 ../source/gf_p25519_mul.s 		\
-	 ../source/gf_p25519_nsqr.s 		\
-	 ../source/gf_p25519_makeunique.s 	\
-	 ../source/gf_p25519_pack.c		\
-	 ../source/gf_p25519_inv.c 		\
-	 ../source/curve25519_scalarmult.c	\
-	  ./curve25519_test.c
+SRCFLS = ../source/curve256k1_const.s 		\
+	 ../source/gf_p256k1_consts.s 		\
+	 ../source/gf_p256k1_add.s 		\
+	 ../source/gf_p256k1_mul.s 		\
+	 ../source/gf_p256k1_negate.s 		\
+	 ../source/gf_p256k1_nsqr.s 		\
+	 ../source/gf_p256k1_makeunique.s 	\
+	 ../source/gf_p256k1_pack.c		\
+	 ../source/gf_p256k1_sub.s 		\
+	 ../source/gf_p256k1_inv.c 		\
+	 ../source/vec_p256k1_add.s 		\
+	 ../source/curve256k1_scalarmult.c	\
+	  ./curve256k1_test.c
          
-OBJFLS = ../source/curve25519_const.o 		\
-	 ../source/curve25519_mladder.o		\
-	 ../source/curve25519_mladder_base.o	\
-	 ../source/gf_p25519_mulx.o 		\
-	 ../source/gf_p25519_nsqrx.o 		\
-	 ../source/gf_p25519_mul.o 		\
-	 ../source/gf_p25519_nsqr.o 		\
-	 ../source/gf_p25519_makeunique.o 	\
-	 ../source/gf_p25519_pack.o		\
-	 ../source/gf_p25519_inv.o 		\
-	 ../source/curve25519_scalarmult.o	\
-	  ./curve25519_test.o
+OBJFLS = ../source/curve256k1_const.o 		\
+	 ../source/gf_p256k1_consts.o 		\
+	 ../source/gf_p256k1_add.o 		\
+	 ../source/gf_p256k1_mul.o 		\
+	 ../source/gf_p256k1_negate.o 		\
+	 ../source/gf_p256k1_nsqr.o 		\
+	 ../source/gf_p256k1_makeunique.o 	\
+	 ../source/gf_p256k1_pack.o		\
+	 ../source/gf_p256k1_sub.o 		\
+	 ../source/gf_p256k1_inv.o 		\
+	 ../source/vec_p256k1_add.o			\
+	 ../source/curve256k1_scalarmult.o	\
+	  ./curve256k1_test.o
 
-EXE    = curve25519_test
+EXE    = curve256k1_test
 
 #CFLAGS = -march=haswell -mtune=haswell -mavx2 -m64 -O3 -funroll-loops -fomit-frame-pointer
 CFLAGS = -march=skylake -mtune=skylake -mavx2 -m64 -O3 -funroll-loops -fomit-frame-pointer
