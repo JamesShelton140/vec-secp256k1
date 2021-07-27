@@ -45,11 +45,14 @@
 
 #define gfp256k1sqr(x,y) gfp256k1nsqr(x,y,1)
 
+extern void gfp256k1add(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 extern void gfp256k1mul(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 extern void gfp256k1nsqr(gfe_p256k1_4L *, const gfe_p256k1_4L *, const uchar8);
 extern void gfp256k1reduce(gfe_p256k1_4L *);
 extern void gfp256k1makeunique(gfe_p256k1_4L *);
 
 void gfp256k1inv(gfe_p256k1_4L *, const gfe_p256k1_4L *);
+
+extern void vecp256k1add(vec *, const vec *, const vec *);
 
 #endif
