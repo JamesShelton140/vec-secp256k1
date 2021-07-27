@@ -59,7 +59,7 @@ typedef struct {
 gfe_p256k1_9L;
 
 typedef struct {
-  uint64 l[NLIMBS_VEC];
+  uint64 l[NLIMBS_VEC_10];
 }
 gfe_p256k1_10L;
 
