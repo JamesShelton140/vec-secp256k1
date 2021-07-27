@@ -51,8 +51,8 @@
 
 int main() {
 
-	// gfe_p256k1_4L e4L = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
-	gfe_p256k1_4L e4L = {3,0,0,0};
+	gfe_p256k1_4L e4L = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	// gfe_p256k1_4L e4L = {3,0,0,0};
 	gfe_p256k1_4L res;
 
 	uchar8 echar8[CRYPTO_BYTES];
@@ -76,7 +76,7 @@ int main() {
 	gfp256k1unpack(echar8, &res);
 
 	fprintf(FILE,"e + e in 4-limb form:\n");
-	for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",echar8[i]); fprintf(FILE,"\n\n");
+	fprintf(FILE,"e:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",echar8[i]); fprintf(FILE,"\n\n");
 
 	uchar8 resChar0[CRYPTO_BYTES];
 	uchar8 resChar1[CRYPTO_BYTES];
