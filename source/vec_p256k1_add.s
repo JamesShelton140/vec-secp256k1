@@ -91,7 +91,7 @@ vpsrld      $26,%ymm14,%ymm15
 vpsllq      $32,%ymm15,%ymm15
 vpaddd      %ymm15,%ymm10,%ymm10
 
-vpsrlq      $58,%ymm14,%ymm15
+vpsrlq      $54,%ymm14,%ymm15
 vpslld      $6,%ymm15,%ymm15
 vpaddd      %ymm15,%ymm11,%ymm11
 vpsrld      $6,%ymm15,%ymm15
@@ -120,7 +120,7 @@ vpsrld      $26,%ymm14,%ymm15
 vpsllq      $32,%ymm15,%ymm15
 vpaddd      %ymm15,%ymm10,%ymm10
 
-vpsrlq      $58,%ymm14,%ymm15
+vpsrlq      $54,%ymm14,%ymm15
 vpslld      $6,%ymm15,%ymm15
 vpaddd      %ymm15,%ymm11,%ymm11
 vpsrld      $6,%ymm15,%ymm15
