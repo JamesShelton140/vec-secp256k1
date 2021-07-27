@@ -48,6 +48,7 @@
 
 #define change_input(x,y,z)  {x[0] = y[0]^z[0];}
 #define FILE stdout
+void print_elem(const gfe_p256k1_4L *);
 
 int main() {
 
@@ -80,6 +81,7 @@ int main() {
 
 	fprintf(FILE,"e + e in 4-limb form:\n");
 	fprintf(FILE,"e:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",echar8[i]); fprintf(FILE,"\n\n");
+	fprintf(FILE,"e hex:\t\t");print_elem(&res);
 
 	uchar8 resChar0[CRYPTO_BYTES];
 	uchar8 resChar1[CRYPTO_BYTES];
@@ -114,6 +116,17 @@ int main() {
 	fprintf(FILE,"1:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar1[i]); fprintf(FILE,"\n\n");
 	fprintf(FILE,"2:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar2[i]); fprintf(FILE,"\n\n");
 	fprintf(FILE,"3:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar3[i]); fprintf(FILE,"\n\n");
+	fprintf(FILE,"0 hex:\t\t");print_elem(&res0S);
+	fprintf(FILE,"1 hex:\t\t");print_elem(&res1S);
+	fprintf(FILE,"2 hex:\t\t");print_elem(&res2S);
+	fprintf(FILE,"3 hex:\t\t");print_elem(&res3S);
+
+	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
+	fprintf(FILE,"CPU-cycles for 4 sequential field additions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+	MEASURE_TIME({vecp256k1add(q,n,p);});
+	fprintf(FILE,"CPU-cycles for a 4-way vector field addition: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// uchar8 n[CRYPTO_BYTES] = {102, 66, 236, 240, 6, 149, 92, 7, 43, 107, 163, 255, 64, 145, 5, 203, 230, 54, 147, 234, 197, 5, 215, 214, 124, 189, 226, 219, 235, 71, 20, 254};
 	// uchar8 p[CRYPTO_BYTES] = {9};
@@ -141,4 +154,13 @@ int main() {
 	// fprintf(FILE,"CPU-cycles for shared secret computation of Curve256k1: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	return 0;
+}
+
+void print_elem(const gfe_p256k1_4L *e){
+
+	uchar8  i;
+
+	for (i=NLIMBS-1; i>0; --i) 
+		fprintf(FILE,"%16llX ",e->l[i]);
+	fprintf(FILE,"%16llX \n\n",e->l[0]);
 }
