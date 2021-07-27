@@ -51,7 +51,8 @@
 
 int main() {
 
-	gfe_p256k1_4L e4L = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	// gfe_p256k1_4L e4L = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	gfe_p256k1_4L e4L = {3,0,0,0};
 	gfe_p256k1_4L res;
 
 	uchar8 echar8[CRYPTO_BYTES];
