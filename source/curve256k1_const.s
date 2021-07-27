@@ -40,6 +40,11 @@
 .data
 
 .globl vec977
+.globl vecmask22
+.globl vecmask26
+.globl vecmask26d
+.globl vecmask2226d
+.globl vecmask32
 
 .p2align 5
 
