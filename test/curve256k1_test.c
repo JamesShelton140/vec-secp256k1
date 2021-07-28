@@ -158,11 +158,24 @@ int main() {
 	// ----------------------------------------------------------
 
 	e4L = E_VALUE;
+	f4L = F_VALUE;
+
+	// Addition
 	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
 	fprintf(FILE,"CPU-cycles for 4 sequential field additions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	MEASURE_TIME({vecp256k1add(q,n,p);});
 	fprintf(FILE,"CPU-cycles for a 4-way vector field addition: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+	// Subtraction
+	MEASURE_TIME({gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);});
+	fprintf(FILE,"CPU-cycles for 4 sequential field subtractions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+	set_vector(n, &e10L, &e10L, &f10L, &zero10L);
+	set_vector(p, &e10L, &f10L, &e10L, &e10L);
+
+	MEASURE_TIME({vecp256k1sub(q,n,p);});
+	fprintf(FILE,"CPU-cycles for a 4-way vector field subtraction: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// uchar8 n[CRYPTO_BYTES] = {102, 66, 236, 240, 6, 149, 92, 7, 43, 107, 163, 255, 64, 145, 5, 203, 230, 54, 147, 234, 197, 5, 215, 214, 124, 189, 226, 219, 235, 71, 20, 254};
 	// uchar8 p[CRYPTO_BYTES] = {9};
