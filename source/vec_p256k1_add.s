@@ -70,7 +70,7 @@ vpaddq      %ymm2,%ymm7,%ymm12
 vpaddq      %ymm3,%ymm8,%ymm13
 vpaddq      %ymm4,%ymm9,%ymm14
 
-//reduction chain (reduce3)
+//reduction chain reduce3(<q1',q2',q3',q4'>)
 vpsrld      $26,%ymm10,%ymm15
 vpaddd      %ymm15,%ymm11,%ymm11
 vpand       vecmask26d,%ymm10,%ymm10
@@ -99,7 +99,7 @@ vpmuludq    vec977,%ymm15,%ymm15
 vpaddd      %ymm15,%ymm10,%ymm10
 vpand       vecmask2226d,%ymm14,%ymm14
 
-//reduction chain (reduce3) [Only needed to ensure complete reduction]
+//reduction chain reduce3(<q1',q2',q3',q4'>) [Only needed to ensure complete reduction]
 vpsrld      $26,%ymm10,%ymm15
 vpaddd      %ymm15,%ymm11,%ymm11
 vpand       vecmask26d,%ymm10,%ymm10
