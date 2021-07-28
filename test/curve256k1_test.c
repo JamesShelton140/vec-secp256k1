@@ -54,10 +54,15 @@ void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
 void set_vector(vec *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
 
 int main() {
+	const gfe_p256k1_4L E_VALUE = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	// const gfe_p256k1_4L E_VALUE = {3,0,0,0};
+	// const gfe_p256k1_4L E_VALUE = {3,3,3,3};
 
-	gfe_p256k1_4L e4L = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
-	// gfe_p256k1_4L e4L = {3,0,0,0};
-	// gfe_p256k1_4L e4L = {3,3,3,3};
+	const gfe_p256k1_4L F_VALUE = {0xFFFFFFFEFFFFFC2D,-1,-1,-1};
+
+	const gfe_p256k1_4L ZERO_4L = {0,0,0,0};
+
+	gfe_p256k1_4L e4L = E_VALUE;
 	gfe_p256k1_4L res;
 
 	uchar8 echar8[CRYPTO_BYTES];
@@ -96,10 +101,10 @@ int main() {
 
 	// Test sequential subtraction
 
-	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	e4L = E_VALUE;
 
-	gfe_p256k1_4L f4L =  {0xFFFFFFFEFFFFFC2D,-1,-1,-1};
-	gfe_p256k1_4L zero4L = {0,0,0,0};
+	gfe_p256k1_4L f4L =  F_VALUE;
+	gfe_p256k1_4L zero4L = ZERO_4L;
 
 	gfp256k1sub(&res, &e4L, &e4L);
 
@@ -133,9 +138,9 @@ int main() {
 
 	gfe_p256k1_10L f10L, zero10L;
 
-	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
-	f4L =  (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2D,-1,-1,-1};
-	zero4L = (gfe_p256k1_4L){0,0,0,0};
+	e4L = E_VALUE;
+	f4L =  F_VALUE;
+	zero4L = ZERO_4L;
 
 	set_values(echar8, &e10L, &e4L, 2);
 	set_values(echar8, &f10L, &f4L, 2);
@@ -152,7 +157,7 @@ int main() {
 	// ------------------- Measure CPU-cycles -------------------
 	// ----------------------------------------------------------
 
-	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	e4L = E_VALUE;
 	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
 	fprintf(FILE,"CPU-cycles for 4 sequential field additions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
