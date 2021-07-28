@@ -63,6 +63,9 @@ int main() {
 	uchar8 echar8[CRYPTO_BYTES];
 	gfe_p256k1_10L e10L;
 
+	// ------------------- Addition on GFp256-32-977 -------------------
+	// -----------------------------------------------------------------
+
 	// Test sequential addition
 
 	set_values(echar8, &e10L, &e4L, 2);
@@ -71,9 +74,7 @@ int main() {
 
 	gfp256k1makeunique(&res);
 
-	gfp256k1unpack(echar8, &res);
-
-	fprintf(FILE,"e + e in 4-limb form:\n");
+	fprintf(FILE,"\te + e in 4-limb form:\n");
 	fprintf(FILE,"e hex:\t\t");print_elem(&res);
 
 	// Test vector addition
@@ -85,10 +86,71 @@ int main() {
 	set_vector(n, &e10L, &e10L, &e10L, &e10L);
 	set_vector(p, &e10L, &e10L, &e10L, &e10L);
 
-	vecp256k1add(q,n,p);
+	vecp256k1add(q, n, p);
 
-	fprintf(FILE,"<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
+	fprintf(FILE,"\t<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
 	print_vector(q);
+
+	// ------------------- Subtraction on GFp256-32-977 -------------------
+	// --------------------------------------------------------------------
+
+	// Test sequential subtraction
+
+	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+
+	gfe_p256k1_4L f4L =  {0xFFFFFFFEFFFFFC2D,-1,-1,-1};
+	gfe_p256k1_4L zero4L = {0,0,0,0};
+
+	gfp256k1sub(&res, &e4L, &e4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te - e in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1sub(&res, &f4L, &e4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te - f in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1sub(&res, &e4L, &f4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\tf - e in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1sub(&res, &zero4L, &e4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\t0 - e in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	// Test vector subtraction
+
+	gfe_p256k1_10L f10L, zero10L;
+
+	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+	f4L =  (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2D,-1,-1,-1};
+	zero4L = (gfe_p256k1_4L){0,0,0,0};
+
+	set_values(echar8, &e10L, &e4L, 2);
+	set_values(echar8, &f10L, &f4L, 2);
+	set_values(echar8, &zero10L, &zero4L, 2);
+	
+	set_vector(n, &e10L, &e10L, &f10L, &zero10L);
+	set_vector(p, &e10L, &f10L, &e10L, &e10L);
+
+	vecp256k1sub(q, n, p);
+
+	fprintf(FILE,"\t<e,e,f,0> - <e,f,e,e> in 10-limb form:\n");
+	print_vector(q);
+
+	// ------------------- Measure CPU-cycles -------------------
+	// ----------------------------------------------------------
 
 	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
 	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
