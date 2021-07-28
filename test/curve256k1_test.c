@@ -49,6 +49,9 @@
 #define change_input(x,y,z)  {x[0] = y[0]^z[0];}
 #define FILE stdout
 void print_elem(const gfe_p256k1_4L *);
+void print_vector(const vec *);
+void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
+void set_vector(vec *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
 
 int main() {
 
@@ -58,20 +61,11 @@ int main() {
 	gfe_p256k1_4L res;
 
 	uchar8 echar8[CRYPTO_BYTES];
-	gfp256k1unpack(echar8, &e4L);
-
 	gfe_p256k1_10L e10L;
-	gfp256k1pack10(&e10L, echar8);
 
-	vec n[NLIMBS_VEC_10] = {0};
-	vec p[NLIMBS_VEC_10] = {0};
-	vec q[NLIMBS_VEC_10] = {0};
+	// Test sequential addition
 
-	uchar8 i;
-	for (i=0; i<NLIMBS_VEC_10;++i) {
-		n[i][0] = n[i][1] = n[i][2] = n[i][3] = e10L.l[i];
-		p[i][0] = p[i][1] = p[i][2] = p[i][3] = e10L.l[i];
-	}
+	set_values(echar8, &e10L, &e4L, 2);
 
 	gfp256k1add(&res, &e4L, &e4L);
 
@@ -80,46 +74,21 @@ int main() {
 	gfp256k1unpack(echar8, &res);
 
 	fprintf(FILE,"e + e in 4-limb form:\n");
-	fprintf(FILE,"e:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",echar8[i]); fprintf(FILE,"\n\n");
 	fprintf(FILE,"e hex:\t\t");print_elem(&res);
 
-	uchar8 resChar0[CRYPTO_BYTES];
-	uchar8 resChar1[CRYPTO_BYTES];
-	uchar8 resChar2[CRYPTO_BYTES];
-	uchar8 resChar3[CRYPTO_BYTES];
+	// Test vector addition
 
-	gfe_p256k1_10L res0, res1, res2, res3;
+	vec n[NLIMBS_VEC_10] = {0};
+	vec p[NLIMBS_VEC_10] = {0};
+	vec q[NLIMBS_VEC_10] = {0};
 
-	gfe_p256k1_4L res0S, res1S, res2S, res3S;
+	set_vector(n, &e10L, &e10L, &e10L, &e10L);
+	set_vector(p, &e10L, &e10L, &e10L, &e10L);
 
 	vecp256k1add(q,n,p);
 
-	for (i=0; i<NLIMBS_VEC_10;++i) {
-		res0.l[i] = q[i][0];
-		res1.l[i] = q[i][1];
-		res2.l[i] = q[i][2];
-		res3.l[i] = q[i][3];
-	}
-
-	gfp256k1pack104(&res0S,&res0);
-	gfp256k1pack104(&res1S,&res1);
-	gfp256k1pack104(&res2S,&res2);
-	gfp256k1pack104(&res3S,&res3);
-
-	gfp256k1unpack(resChar0,&res0S);
-	gfp256k1unpack(resChar1,&res1S);
-	gfp256k1unpack(resChar2,&res2S);
-	gfp256k1unpack(resChar3,&res3S);
-
 	fprintf(FILE,"<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
-	fprintf(FILE,"0:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar0[i]); fprintf(FILE,"\n\n");
-	fprintf(FILE,"1:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar1[i]); fprintf(FILE,"\n\n");
-	fprintf(FILE,"2:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar2[i]); fprintf(FILE,"\n\n");
-	fprintf(FILE,"3:\t\t");for(i=0;i<CRYPTO_BYTES;++i) fprintf(FILE,"%4d",resChar3[i]); fprintf(FILE,"\n\n");
-	fprintf(FILE,"0 hex:\t\t");print_elem(&res0S);
-	fprintf(FILE,"1 hex:\t\t");print_elem(&res1S);
-	fprintf(FILE,"2 hex:\t\t");print_elem(&res2S);
-	fprintf(FILE,"3 hex:\t\t");print_elem(&res3S);
+	print_vector(q);
 
 	e4L = (gfe_p256k1_4L){0xFFFFFFFEFFFFFC2E,-1,-1,-1};
 	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
@@ -163,4 +132,45 @@ void print_elem(const gfe_p256k1_4L *e){
 	for (i=NLIMBS-1; i>0; --i) 
 		fprintf(FILE,"%16llX ",e->l[i]);
 	fprintf(FILE,"%16llX \n\n",e->l[0]);
+}
+
+void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const int src){
+	if (src == 0) {
+		gfp256k1pack10(e10L, echar8);
+		gfp256k1pack104(e4L, e10L);
+	}
+
+	if (src == 1) {
+		gfp256k1pack104(e4L, e10L);
+	}
+
+	gfp256k1unpack(echar8, e4L);
+	gfp256k1pack10(e10L, echar8);
+	gfp256k1pack104(e4L, e10L);
+}
+
+void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
+	uchar8 i;
+	for (i=0; i<NLIMBS_VEC_10;++i) {
+		V[i][0] = a0->l[i];
+		V[i][1] = a1->l[i];
+		V[i][2] = a2->l[i];
+		V[i][3] = a3->l[i];
+	}
+}
+
+void print_vector(const vec *V) {
+	gfe_p256k1_4L res4L;
+	gfe_p256k1_10L res10L;
+
+	int i, j;
+	for(j=0; j<4; j++) {
+		for (i=0; i<NLIMBS_VEC_10; i++) {
+			res10L.l[i] = V[i][j];
+		}
+
+		gfp256k1pack104(&res4L,&res10L);
+
+		fprintf(FILE,"%d hex:\t\t",j);print_elem(&res4L);
+	}
 }
