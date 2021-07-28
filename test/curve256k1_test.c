@@ -108,14 +108,14 @@ int main() {
 	fprintf(FILE,"\te - e in 4-limb form:\n");
 	fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1sub(&res, &f4L, &e4L);
+	gfp256k1sub(&res, &e4L, &f4L);
 
 	gfp256k1makeunique(&res);
 
 	fprintf(FILE,"\te - f in 4-limb form:\n");
 	fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1sub(&res, &e4L, &f4L);
+	gfp256k1sub(&res, &f4L, &e4L);
 
 	gfp256k1makeunique(&res);
 
