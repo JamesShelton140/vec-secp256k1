@@ -45,6 +45,7 @@
 .globl neg_p4
 .globl neg_xor
 .globl vec977
+.globl vec15632
 .globl vecmask22
 .globl vecmask26
 .globl vecmask26d
@@ -59,6 +60,7 @@ neg_p23         : .long 0x7FFFFFF,0x7FFFFFF,0x7FFFFFF,0x7FFFFFF,0x7FFFFFF,0x7FFF
 neg_p4          : .long 0x7FFFFFF,0x7FFFFF,0x7FFFFFF,0x7FFFFF,0x7FFFFFF,0x7FFFFF,0x7FFFFFF,0x7FFFFF
 neg_xor    	    : .long -1,-1,-1,-1,-1,-1,-1,-1
 vec977          : .quad 977,977,977,977
+vec15632		: .quad 15632,15632,15632,15632
 vecmask22       : .quad 0x3FFFF,0x3FFFF,0x3FFFF,0x3FFFF
 vecmask26       : .quad 0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF
 vecmask26d      : .long 0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF,0x3FFFFFF

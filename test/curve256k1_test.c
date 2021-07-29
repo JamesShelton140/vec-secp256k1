@@ -63,6 +63,10 @@ int main() {
 	const gfe_p256k1_4L ZERO_4L = {0,0,0,0};
 
 	gfe_p256k1_4L e4L = E_VALUE;
+	gfe_p256k1_4L f4L = F_VALUE;
+	gfe_p256k1_4L zero4L = ZERO_4L;
+	gfe_p256k1_4L one4L = {1,0,0,0};
+	gfe_p256k1_4L two4L = {2,0,0,0};
 	gfe_p256k1_4L res;
 
 	uchar8 echar8[CRYPTO_BYTES];
@@ -102,9 +106,8 @@ int main() {
 	// Test sequential subtraction
 
 	e4L = E_VALUE;
-
-	gfe_p256k1_4L f4L =  F_VALUE;
-	gfe_p256k1_4L zero4L = ZERO_4L;
+	f4L = F_VALUE;
+	zero4L = ZERO_4L;
 
 	gfp256k1sub(&res, &e4L, &e4L);
 
@@ -152,6 +155,63 @@ int main() {
 	vecp256k1sub(q, n, p);
 
 	fprintf(FILE,"\t<e,e,f,0> - <e,f,e,e> in 10-limb form:\n");
+	print_vector(q);
+
+	// ------------------- Multiplication on GFp256-32-977 -------------------
+	// -----------------------------------------------------------------------
+
+	// Test sequential multiplication
+	e4L = E_VALUE;
+	f4L = F_VALUE;
+	zero4L = ZERO_4L;
+
+	gfp256k1mul(&res, &e4L, &one4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * 1 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mul(&res, &e4L, &two4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * 2 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mul(&res, &e4L, &e4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * e in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mul(&res, &e4L, &zero4L);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * 0 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	// Test vector multiplication
+
+	gfe_p256k1_10L one10L, two10L;
+
+	e4L = E_VALUE;
+	f4L =  F_VALUE;
+	zero4L = ZERO_4L;
+
+	set_values(echar8, &e10L, &e4L, 2);
+	set_values(echar8, &one10L, &one4L, 2);
+	set_values(echar8, &two10L, &two4L, 2);
+	set_values(echar8, &zero10L, &zero4L, 2);
+	
+	set_vector(n, &e10L, &e10L, &e10L, &e10L);
+	set_vector(p, &one10L, &two10L, &e10L, &zero10L);
+
+	vecp256k1mul(q, n, p);
+
+	fprintf(FILE,"\t<e,e,f,0> * <1,2,e,0> in 10-limb form:\n");
 	print_vector(q);
 
 	// ------------------- Measure CPU-cycles -------------------
@@ -250,6 +310,8 @@ void print_vector(const vec *V) {
 		}
 
 		gfp256k1pack104(&res4L,&res10L);
+
+		gfp256k1makeunique(&res4L);
 
 		fprintf(FILE,"%d hex:\t\t",j);print_elem(&res4L);
 	}

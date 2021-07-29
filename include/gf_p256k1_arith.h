@@ -57,5 +57,6 @@ void gfp256k1fltinv(gfe_p256k1_4L *, const gfe_p256k1_4L *);
 
 extern void vecp256k1add(vec *, const vec *, const vec *);
 extern void vecp256k1sub(vec *, const vec *, const vec *);
+extern void vecp256k1mul(vec *, const vec *, const vec *);
 
 #endif
