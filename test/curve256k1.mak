@@ -50,6 +50,7 @@ SRCFLS = ../source/curve256k1_const.s 		\
 	 ../source/gf_p256k1_inv.c 		\
 	 ../source/vec_p256k1_add.s 		\
 	 ../source/vec_p256k1_sub.s			\
+	 ../source/vec_p256k1_mul.s			\
 	 ../source/curve256k1_scalarmult.c	\
 	  ./curve256k1_test.c
          
@@ -65,6 +66,7 @@ OBJFLS = ../source/curve256k1_const.o 		\
 	 ../source/gf_p256k1_inv.o 		\
 	 ../source/vec_p256k1_add.o			\
 	 ../source/vec_p256k1_sub.o			\
+	 ../source/vec_p256k1_mul.o			\
 	 ../source/curve256k1_scalarmult.o	\
 	  ./curve256k1_test.o
 
