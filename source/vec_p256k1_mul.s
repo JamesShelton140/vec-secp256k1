@@ -405,7 +405,7 @@ vpaddq      %ymm10,%ymm1,%ymm1
 vpsrlq      $6,%ymm10,%ymm10
 vpmuludq    vec977,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm0,%ymm0
-vpand       vecmask22,%ymm9,%ymm8
+vpand       vecmask22,%ymm9,%ymm9
 
 vpsrlq      $26,%ymm4,%ymm10
 vpaddq      %ymm10,%ymm5,%ymm5
@@ -462,7 +462,7 @@ vpaddq      %ymm10,%ymm1,%ymm1
 vpsrlq      $6,%ymm10,%ymm10
 vpmuludq    vec977,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm0,%ymm0
-vpand       vecmask22,%ymm9,%ymm8
+vpand       vecmask22,%ymm9,%ymm9
 
 vpsrlq      $26,%ymm4,%ymm10
 vpaddq      %ymm10,%ymm5,%ymm5
