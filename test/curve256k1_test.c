@@ -211,7 +211,7 @@ int main() {
 
 	vecp256k1mul(q, n, p);
 
-	fprintf(FILE,"\t<e,e,f,0> * <1,2,e,0> in 10-limb form:\n");
+	fprintf(FILE,"\t<e,e,e,e> * <1,2,e,0> in 10-limb form:\n");
 	print_vector(q);
 
 	// ------------------- Measure CPU-cycles -------------------
