@@ -500,6 +500,7 @@ vpand       vecmask22,%ymm9,%ymm9
 
 //4->5
 vpsrlq      $26,%ymm4,%ymm10
+vpaddq      %ymm14,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm5,%ymm5
 vpand       vecmask26,%ymm4,%ymm4
 
