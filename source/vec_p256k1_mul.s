@@ -367,38 +367,117 @@ vpaddq      %ymm15,%ymm9,%ymm9
 vpaddq      %ymm13,%ymm9,%ymm9
 
 // perform reduction chain reduce2(<q1,q2,q3,q4>)
+//5->6
 vpsrlq      $26,%ymm5,%ymm10
+//vpaddq      %ymm10,%ymm6,%ymm6
+
+vpsrlq      $32,%ymm6,%ymm11
+vpand       vecmask32,%ymm6,%ymm6
 vpaddq      %ymm10,%ymm6,%ymm6
+vpsrlq      $32,%ymm6,%ymm12
+vpaddq      %ymm11,%ymm12,%ymm11
+vpsrlq      $32,%ymm11,%ymm12
+vpsllq      $32,%ymm11,%ymm11
+vpaddq      %ymm11,%ymm6,%ymm6
+
 vpand       vecmask26,%ymm5,%ymm5
 
+//0->1
 vpsrlq      $26,%ymm0,%ymm10
+//vpaddq      %ymm10,%ymm1,%ymm1
+
+vpsrlq      $32,%ymm1,%ymm13
+vpand       vecmask32,%ymm1,%ymm1
 vpaddq      %ymm10,%ymm1,%ymm1
+vpsrlq      $32,%ymm1,%ymm14
+vpaddq      %ymm13,%ymm14,%ymm13
+vpsrlq      $32,%ymm13,%ymm14
+vpsllq      $32,%ymm13,%ymm13
+vpaddq      %ymm13,%ymm1,%ymm1
+
 vpand       vecmask26,%ymm0,%ymm0
 
+//6->7
 vpsrlq      $26,%ymm6,%ymm10
+//vpaddq      %ymm10,%ymm7,%ymm7
+
+vpsrlq      $32,%ymm7,%ymm11
+vpand       vecmask32,%ymm7,%ymm7
 vpaddq      %ymm10,%ymm7,%ymm7
+vpsrlq      $32,%ymm7,%ymm12
+vpaddq      %ymm11,%ymm12,%ymm11
+vpsrlq      $32,%ymm11,%ymm12
+vpsllq      $32,%ymm11,%ymm11
+vpaddq      %ymm11,%ymm7,%ymm7
+
 vpand       vecmask26,%ymm6,%ymm6
 
+//1->2
 vpsrlq      $26,%ymm1,%ymm10
+//vpaddq      %ymm10,%ymm2,%ymm2
+
+vpsrlq      $32,%ymm2,%ymm13
+vpand       vecmask32,%ymm2,%ymm2
 vpaddq      %ymm10,%ymm2,%ymm2
+vpsrlq      $32,%ymm2,%ymm14
+vpaddq      %ymm13,%ymm14,%ymm13
+vpsrlq      $32,%ymm13,%ymm14
+vpsllq      $32,%ymm13,%ymm13
+vpaddq      %ymm13,%ymm2,%ymm2
+
 vpand       vecmask26,%ymm1,%ymm1
 
+//7->8
 vpsrlq      $26,%ymm7,%ymm10
+//vpaddq      %ymm10,%ymm8,%ymm8
+
+vpsrlq      $32,%ymm8,%ymm11
+vpand       vecmask32,%ymm8,%ymm8
 vpaddq      %ymm10,%ymm8,%ymm8
+vpsrlq      $32,%ymm8,%ymm12
+vpaddq      %ymm11,%ymm12,%ymm11
+vpsrlq      $32,%ymm11,%ymm12
+vpsllq      $32,%ymm11,%ymm11
+vpaddq      %ymm11,%ymm8,%ymm8
+
 vpand       vecmask26,%ymm7,%ymm7
 
+//2->3
 vpsrlq      $26,%ymm2,%ymm10
+//vpaddq      %ymm10,%ymm3,%ymm3
+
+vpsrlq      $32,%ymm3,%ymm13
+vpand       vecmask32,%ymm3,%ymm3
 vpaddq      %ymm10,%ymm3,%ymm3
+vpsrlq      $32,%ymm3,%ymm14
+vpaddq      %ymm13,%ymm14,%ymm13
+vpsrlq      $32,%ymm13,%ymm14
+vpsllq      $32,%ymm13,%ymm13
+vpaddq      %ymm13,%ymm3,%ymm3
+
 vpand       vecmask26,%ymm2,%ymm2
 
+//8->9
 vpsrlq      $26,%ymm8,%ymm10
 vpaddq      %ymm10,%ymm9,%ymm9
 vpand       vecmask26,%ymm8,%ymm8
 
+//3->4
 vpsrlq      $26,%ymm3,%ymm10
 vpaddq      %ymm10,%ymm4,%ymm4
+
+vpsrlq      $32,%ymm4,%ymm13
+vpand       vecmask32,%ymm4,%ymm4
+vpaddq      %ymm10,%ymm4,%ymm4
+vpsrlq      $32,%ymm4,%ymm14
+vpaddq      %ymm13,%ymm14,%ymm13
+vpsrlq      $32,%ymm13,%ymm14
+vpsllq      $32,%ymm13,%ymm13
+vpaddq      %ymm13,%ymm4,%ymm4
+
 vpand       vecmask26,%ymm3,%ymm3
 
+//9->(0,1)
 vpsrlq      $22,%ymm9,%ymm10
 vpsllq      $6,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm1,%ymm1
@@ -407,18 +486,22 @@ vpmuludq    vec977,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm0,%ymm0
 vpand       vecmask22,%ymm9,%ymm9
 
+//4->5
 vpsrlq      $26,%ymm4,%ymm10
 vpaddq      %ymm10,%ymm5,%ymm5
 vpand       vecmask26,%ymm4,%ymm4
 
+//0->1
 vpsrlq      $26,%ymm0,%ymm10
 vpaddq      %ymm10,%ymm1,%ymm1
 vpand       vecmask26,%ymm0,%ymm0
 
+//5->6
 vpsrlq      $26,%ymm5,%ymm10
 vpaddq      %ymm10,%ymm6,%ymm6
 vpand       vecmask26,%ymm5,%ymm5
 
+//1->2
 vpsrlq      $26,%ymm1,%ymm10
 vpaddq      %ymm10,%ymm2,%ymm2
 vpand       vecmask26,%ymm1,%ymm1
