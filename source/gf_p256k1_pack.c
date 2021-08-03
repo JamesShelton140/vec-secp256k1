@@ -111,8 +111,8 @@ void gfp256k1pack10(gfe_p256k1_10L *v, const uchar8 *u) {
 	v->l[7] = ((t.l[2] & 0xFFC0000000000000) >> 54) | ((t.l[3] & 0x000000000000FFFF) << 10);
 	v->l[8] = ((t.l[3] & 0x000003FFFFFF0000) >> 16);
 	v->l[9] = ((t.l[3] & 0xFFFFFC0000000000) >> 42);
-
 }
+
 void gfp256k1pack104(gfe_p256k1_4L *v, const gfe_p256k1_10L *u) {
 	// masks:
 	// first 26 bits 0x0000000003FFFFFF
