@@ -469,6 +469,7 @@ vpand       vecmask26,%ymm2,%ymm2
 
 //8->9
 vpsrlq      $26,%ymm8,%ymm10
+vpaddq      %ymm12,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm9,%ymm9
 vpand       vecmask26,%ymm8,%ymm8
 
