@@ -473,14 +473,16 @@ vpand       vecmask26,%ymm2,%ymm2
 
 //8->9
 vpsrlq      $26,%ymm8,%ymm10
+
 vpsllq      $38,%ymm12,%ymm12
 vpaddq      %ymm12,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm9,%ymm9
+
 vpand       vecmask26,%ymm8,%ymm8
 
 //3->4
 vpsrlq      $26,%ymm3,%ymm10
-vpaddq      %ymm10,%ymm4,%ymm4
+//vpaddq      %ymm10,%ymm4,%ymm4
 
 vpsllq      $38,%ymm14,%ymm14
 vpaddq      %ymm14,%ymm10,%ymm10
@@ -507,9 +509,11 @@ vpand       vecmask22,%ymm9,%ymm9
 
 //4->5
 vpsrlq      $26,%ymm4,%ymm10
+
 vpsllq      $38,%ymm14,%ymm14
 vpaddq      %ymm14,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm5,%ymm5
+
 vpand       vecmask26,%ymm4,%ymm4
 
 //0->1
