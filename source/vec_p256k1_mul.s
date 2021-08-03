@@ -375,6 +375,7 @@ vpsrlq      $32,%ymm6,%ymm11
 vpand       vecmask32,%ymm6,%ymm6
 vpaddq      %ymm10,%ymm6,%ymm6
 vpsrlq      $32,%ymm6,%ymm12
+vpand       vecmask32,%ymm6,%ymm6
 vpaddq      %ymm11,%ymm12,%ymm11
 vpsrlq      $32,%ymm11,%ymm12
 vpsllq      $32,%ymm11,%ymm11
@@ -390,6 +391,7 @@ vpsrlq      $32,%ymm1,%ymm13
 vpand       vecmask32,%ymm1,%ymm1
 vpaddq      %ymm10,%ymm1,%ymm1
 vpsrlq      $32,%ymm1,%ymm14
+vpand       vecmask32,%ymm1,%ymm1
 vpaddq      %ymm13,%ymm14,%ymm13
 vpsrlq      $32,%ymm13,%ymm14
 vpsllq      $32,%ymm13,%ymm13
@@ -406,6 +408,7 @@ vpsrlq      $32,%ymm7,%ymm11
 vpand       vecmask32,%ymm7,%ymm7
 vpaddq      %ymm10,%ymm7,%ymm7
 vpsrlq      $32,%ymm7,%ymm12
+vpand       vecmask32,%ymm7,%ymm7
 vpaddq      %ymm11,%ymm12,%ymm11
 vpsrlq      $32,%ymm11,%ymm12
 vpsllq      $32,%ymm11,%ymm11
@@ -422,6 +425,7 @@ vpsrlq      $32,%ymm2,%ymm13
 vpand       vecmask32,%ymm2,%ymm2
 vpaddq      %ymm10,%ymm2,%ymm2
 vpsrlq      $32,%ymm2,%ymm14
+vpand       vecmask32,%ymm2,%ymm2
 vpaddq      %ymm13,%ymm14,%ymm13
 vpsrlq      $32,%ymm13,%ymm14
 vpsllq      $32,%ymm13,%ymm13
@@ -438,6 +442,7 @@ vpsrlq      $32,%ymm8,%ymm11
 vpand       vecmask32,%ymm8,%ymm8
 vpaddq      %ymm10,%ymm8,%ymm8
 vpsrlq      $32,%ymm8,%ymm12
+vpand       vecmask32,%ymm8,%ymm8
 vpaddq      %ymm11,%ymm12,%ymm11
 vpsrlq      $32,%ymm11,%ymm12
 vpsllq      $32,%ymm11,%ymm11
@@ -454,6 +459,7 @@ vpsrlq      $32,%ymm3,%ymm13
 vpand       vecmask32,%ymm3,%ymm3
 vpaddq      %ymm10,%ymm3,%ymm3
 vpsrlq      $32,%ymm3,%ymm14
+vpand       vecmask32,%ymm3,%ymm3
 vpaddq      %ymm13,%ymm14,%ymm13
 vpsrlq      $32,%ymm13,%ymm14
 vpsllq      $32,%ymm13,%ymm13
@@ -475,6 +481,7 @@ vpsrlq      $32,%ymm4,%ymm13
 vpand       vecmask32,%ymm4,%ymm4
 vpaddq      %ymm10,%ymm4,%ymm4
 vpsrlq      $32,%ymm4,%ymm14
+vpand       vecmask32,%ymm4,%ymm4
 vpaddq      %ymm13,%ymm14,%ymm13
 vpsrlq      $32,%ymm13,%ymm14
 vpsllq      $32,%ymm13,%ymm13
