@@ -500,11 +500,17 @@ vpand       vecmask26,%ymm3,%ymm3
 
 //9->(0,1)
 vpsrlq      $22,%ymm9,%ymm10
-vpsllq      $6,%ymm10,%ymm10
-vpaddq      %ymm10,%ymm1,%ymm1
-vpsrlq      $6,%ymm10,%ymm10
+
+vpsllq      $6,%ymm10,%ymm15
+vpaddq      %ymm15,%ymm1,%ymm1
+vpsrlq      $32,%ymm10,%ymm15
+vpmuludq    vec977,%ymm15,%ymm15
+vpsllq      $6,%ymm15,%ymm15
+vpaddq      %ymm15,%ymm1,%ymm1
+
 vpmuludq    vec977,%ymm10,%ymm10
 vpaddq      %ymm10,%ymm0,%ymm0
+
 vpand       vecmask22,%ymm9,%ymm9
 
 //4->5
