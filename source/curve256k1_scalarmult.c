@@ -43,8 +43,6 @@
 #include "gf_p256k1_arith.h"
 #include "curve256k1.h"
 
-void set_vector(vec *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
-void unpack_vector(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, const vec *);
 void ladder_setup(gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, const gfe_p256k1_4L *);
 void QR_ladder_step(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *);
 //Compute finalization of the scalar multiplication algorithm
@@ -119,26 +117,6 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	final_step(&xQ, &xQP, &xRP, &M, &xP);
 
 	return 0;
-}
-
-void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
-	uchar8 i;
-	for (i=0; i<NLIMBS_VEC_10;++i) {
-		V[i][0] = a0->l[i];
-		V[i][1] = a1->l[i];
-		V[i][2] = a2->l[i];
-		V[i][3] = a3->l[i];
-	}
-}
-
-void unpack_vector(gfe_p256k1_10L *a0, gfe_p256k1_10L *a1, gfe_p256k1_10L *a2, gfe_p256k1_10L *a3, const vec *V) {
-	uchar8 i;
-	for (i=0; i<NLIMBS_VEC_10;++i) {
-		a0->l[i] = V[i][0];
-		a1->l[i] = V[i][1];
-		a2->l[i] = V[i][2];
-		a3->l[i] = V[i][3];
-	}
 }
 
 void ladder_setup(gfe_p256k1_4L *xQP, gfe_p256k1_4L *xRP, gfe_p256k1_4L *yQ, gfe_p256k1_4L *yR, gfe_p256k1_4L *G, const gfe_p256k1_4L *xP) {

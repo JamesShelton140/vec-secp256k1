@@ -122,3 +122,23 @@ void gfp256k1pack104(gfe_p256k1_4L *v, const gfe_p256k1_10L *u) {
     v->l[2] = ((u->l[4] & 0x0000000003000000) >> 24) | ((u->l[5] & 0x0000000003FFFFFF) <<  2) | ((u->l[6] & 0x0000000003FFFFFF) << 28) | ((u->l[7] & 0x00000000000003FF) << 54);
     v->l[3] = ((u->l[7] & 0x0000000003FFFC00) >> 10) | ((u->l[8] & 0x0000000003FFFFFF) << 16) | ((u->l[9] & 0x00000000003FFFFF) << 42);
 }
+
+void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
+	uchar8 i;
+	for (i=0; i<NLIMBS_VEC_10;++i) {
+		V[i][0] = a0->l[i];
+		V[i][1] = a1->l[i];
+		V[i][2] = a2->l[i];
+		V[i][3] = a3->l[i];
+	}
+}
+
+void unpack_vector(gfe_p256k1_10L *a0, gfe_p256k1_10L *a1, gfe_p256k1_10L *a2, gfe_p256k1_10L *a3, const vec *V) {
+	uchar8 i;
+	for (i=0; i<NLIMBS_VEC_10;++i) {
+		a0->l[i] = V[i][0];
+		a1->l[i] = V[i][1];
+		a2->l[i] = V[i][2];
+		a3->l[i] = V[i][3];
+	}
+}

@@ -51,7 +51,6 @@
 void print_elem(const gfe_p256k1_4L *);
 void print_vector(const vec *);
 void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
-void set_vector(vec *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
 
 int main() {
 	const gfe_p256k1_4L E_VALUE = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
@@ -337,16 +336,6 @@ void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const 
 	gfp256k1unpack(echar8, e4L);
 	gfp256k1pack10(e10L, echar8);
 	gfp256k1pack104(e4L, e10L);
-}
-
-void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
-	uchar8 i;
-	for (i=0; i<NLIMBS_VEC_10;++i) {
-		V[i][0] = a0->l[i];
-		V[i][1] = a1->l[i];
-		V[i][2] = a2->l[i];
-		V[i][3] = a3->l[i];
-	}
 }
 
 void print_vector(const vec *V) {

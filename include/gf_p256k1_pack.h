@@ -50,4 +50,7 @@ void gfp256k1unpack(uchar8 *, const gfe_p256k1_4L *);
 void gfp256k1pack10(gfe_p256k1_10L *, const uchar8 *);
 void gfp256k1pack104(gfe_p256k1_4L *, const gfe_p256k1_10L *);
 
+void set_vector(vec *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
+void unpack_vector(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, const vec *);
+
 #endif
