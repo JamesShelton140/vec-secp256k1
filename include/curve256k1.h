@@ -49,7 +49,7 @@ extern void curve256k1_mladder(vec *, const vec *, const uchar8 *);
 int curve256k1_scalarmult(uchar8 *, const uchar8 *, const uchar8 *);
 
 static const gfe_p256k1_4L twoinv = {0xFFFFFFFF7FFFFE18, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF};
-static const gfe_p256k1_4L threeinv = {0xAAAAAAA9FFFFFD75, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA};//need to calculate
+static const gfe_p256k1_4L threeinv = {0xAAAAAAA9FFFFFD75, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA};
 static const gfe_p256k1_4L delta = {0x1000003D1,0,0,0};
 static const gfe_p256k1_10L ZERO_10L = {0,0,0,0,0,0,0,0,0,0};
 static const gfe_p256k1_10L ONE_10L = {1,0,0,0,0,0,0,0,0,0};

@@ -39,11 +39,11 @@
 
 #include <stdio.h>
 #include <math.h>
-#include "curve256k1.h"
 #include "basic_types.h"
 #include "gf_p256k1_type.h"
 #include "gf_p256k1_pack.h"
 #include "gf_p256k1_arith.h"
+#include "curve256k1.h"
 #include "measure.h"
 
 #define change_input(x,y,z)  {x.l[0] = y.l[0]^z.l[0];}
