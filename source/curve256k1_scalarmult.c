@@ -177,7 +177,7 @@ void ladder_setup(gfe_p256k1_4L *xQP, gfe_p256k1_4L *xRP, gfe_p256k1_4L *yQ, gfe
 	gfp256k1mul(&xP3yP, &xP3, &yP);
 
 	// yQ   = yP^2
-	gfp256k1sqr(&yQ, &yP);
+	gfp256k1sqr(yQ, &yP);
 
 	// xRP  = m^2 - xP3yP
 	gfe_p256k1_4L mm;
@@ -245,10 +245,10 @@ void QR_ladder_step(gfe_p256k1_10L *xQP, gfe_p256k1_10L *xRP, gfe_p256k1_10L *yQ
 void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xRP_10L, const gfe_p256k1_10L *yQ_10L, const gfe_p256k1_10L *yR_10L, const gfe_p256k1_10L *G_10L) {
 	gfe_p256k1_4L xRP, yQ, yR, G, H, L, J, Mt, xRPrime;
 
-	gfp256k1pack104(&xRP, &xRP_10L);
-	gfp256k1pack104(&yQ, &yQ_10L);
-	gfp256k1pack104(&yR, &yR_10L);
-	gfp256k1pack104(&G, &G_10L);
+	gfp256k1pack104(&xRP, xRP_10L);
+	gfp256k1pack104(&yQ, yQ_10L);
+	gfp256k1pack104(&yR, yR_10L);
+	gfp256k1pack104(&G, G_10L);
 
 	// H 		= yR^2
 	gfp256k1sqr(&H, &yR);
@@ -264,14 +264,14 @@ void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xRP_10L, const gfe_p256
 
 	// M 		= J + xRPrime - H
 	gfp256k1add(&Mt, &J, &xRPrime);
-	gfp256k1sub(&M, &Mt, &H);
+	gfp256k1sub(M, &Mt, &H);
 
 }
 
 void final_step(gfe_p256k1_4L *xQ, const gfe_p256k1_4L *xQP, const gfe_p256k1_4L *xRP, const gfe_p256k1_4L *M, const gfe_p256k1_4L *xP) {
 	// xP*Z^2 = (M^2 - xQP - xRP)/3
 	gfe_p256k1_4L MM, MMt1, MMt2, xPZZ;
-	gfp256k1sqr(&MM, &M);
+	gfp256k1sqr(&MM, M);
 	gfp256k1sub(&MMt1, &MM, xQP);
 	gfp256k1sub(&MMt2, &MMt1, xRP);
 	gfp256k1mul(&xPZZ, &MMt2, &threeinv);
