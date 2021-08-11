@@ -66,7 +66,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Ladder setup procedure
 	ladder_setup(&xQP, &xRP, &yQ, &yR, &G, &xP);
 
-	uchar8 prevswap = 0;
+	uint64 prevswap = 0;
 	uint64 swap;
 	int i, bit, limb;
 	for(i=255; i >= 0; i--) {
@@ -77,7 +77,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 		// swap = not(bit i)
         swap = (uint64)1 ^ ((uint64)1 & (n_4L.l[limb] >> bit));
 		// prevswap = prevswap xor swap
-		prevswap ^= (uchar8)swap;
+		prevswap ^= swap;
 
 		//perform conditional swap
 		if(prevswap) {
@@ -108,13 +108,15 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 		}
 
 		// preevswap = swap
-		prevswap = (uchar8)swap;
+		prevswap = swap;
 	}
 
 	gfp256k1pack104(&xQP, &xQP_10L);
 	gfp256k1pack104(&xRP, &xRP_10L);
 
 	final_step(&xQ, &xQP, &xRP, &M, &xP);
+	
+	gfp256k1unpack(q, &xQ);
 
 	return 0;
 }
