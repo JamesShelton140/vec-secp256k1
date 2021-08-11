@@ -33,13 +33,13 @@ $(EXE): $(OBJFLS)
 	$(LL) -o $@ $(OBJFLS) -lm -no-pie
 
 ../bin/%.o: ../source/%.c
-	$(CC) $(INCDRS) $(CFLAGS) -o $@ -c $<
+	$(CC) $(INCDRS) -g $(CFLAGS) -o $@ -c $<
 
 ../bin/%.o: ../source/%.s
-	$(ASM) -o $@ $<
+	$(ASM) -g -o $@ $<
 
 ./curve256k1_test.o: ./curve256k1_test.c
-	$(CC) $(INCDRS) $(CFLAGS) -o $@ -c $<
+	$(CC) $(INCDRS) -g $(CFLAGS) -o $@ -c $<
 	
 clean:
 	-rm $(EXE)
