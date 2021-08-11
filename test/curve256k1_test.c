@@ -163,6 +163,41 @@ int main() {
 	e4L = E_VALUE;
 	f4L = F_VALUE;
 	zero4L = ZERO_4L;
+	uint64 one64 = 1;
+	uint64 two64 = 2;
+	uint64 F64 = 0xFFFFFFFFFFFFFFFF;
+
+	// Test multiplication by a small constant
+
+	gfp256k1mulc(&res, &e4L, &one64);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * (uint64) 1 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mulc(&res, &e4L, &two64);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * (uint64) 2 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mulc(&res, &e4L, &F64);
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * (uint64) 2^64 - 1 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0xFFFFFFFFFFFFFFFF,0,0,0});
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\te * 2^64 - 1 in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+
+	// Standard sequential muletiplication
 
 	gfp256k1mul(&res, &e4L, &one4L);
 
