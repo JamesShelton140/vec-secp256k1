@@ -52,6 +52,15 @@
 .globl vecmask2226d
 .globl vecmask32
 
+.globl SECP256K1_N_0
+.globl SECP256K1_N_1
+.globl SECP256K1_N_2
+.globl SECP256K1_N_3
+
+.globl SECP256K1_N_C_0
+.globl SECP256K1_N_C_1
+.globl SECP256K1_N_C_2
+
 .p2align 5
 
 neg_p0          : .long 0x7FFF85F,0x7FFFFFF,0x7FFF85F,0x7FFFFFF,0x7FFF85F,0x7FFFFFF,0x7FFF85F,0x7FFFFFF
