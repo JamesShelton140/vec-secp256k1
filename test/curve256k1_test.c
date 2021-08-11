@@ -296,13 +296,32 @@ int main() {
 
 	e4L = E_VALUE;
 	f4L = F_VALUE;
+	
+	set_values(echar8, &e10L, &e4L, 2);
+	set_values(echar8, &f10L, &f4L, 2);
+	set_values(echar8, &one10L, &one4L, 2);
+	set_values(echar8, &two10L, &two4L, 2);
+	
+	set_vector(n, &e10L, &e10L, &e10L, &e10L);
+	set_vector(p, &e10L, &f10L, &one10L, &two10L);
 
 	// Addition
-	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &e4L);});
+	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &f4L);gfp256k1add(&res, &e4L, &one4L);gfp256k1add(&res, &e4L, &two4L);});
 	fprintf(FILE,"CPU-cycles for 4 sequential field additions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+    set_values(echar8, &e10L, &e4L, 2);
+	set_values(echar8, &f10L, &f4L, 2);
+	set_values(echar8, &one10L, &one4L, 2);
+	set_values(echar8, &two10L, &two4L, 2);
+	
+	set_vector(n, &e10L, &e10L, &e10L, &e10L);
+	set_vector(p, &e10L, &f10L, &one10L, &two10L);
 
 	MEASURE_TIME({vecp256k1add(q,n,p);});
 	fprintf(FILE,"CPU-cycles for a 4-way vector field addition: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+	
+	//MEASURE_TIME({change_input(e4L,res,e4L);set_values(echar8, &e10L, &e4L, 2);set_vector(n, &e10L, &e10L, &e10L, &e10L);});
+	//fprintf(FILE,"CPU-cycles for change input: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Subtraction
 	MEASURE_TIME({gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);});
@@ -315,17 +334,25 @@ int main() {
 	fprintf(FILE,"CPU-cycles for a 4-way vector field subtraction: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Multiplication
-	MEASURE_TIME({gfp256k1mul(&res, &e4L, &e4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &f4L, &e4L);gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});});
+	MEASURE_TIME({gfp256k1mul(&res, &e4L, &e4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});});
 	fprintf(FILE,"CPU-cycles for 4 sequential field multiplications: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+    set_values(echar8, &e10L, &e4L, 2);
+	set_values(echar8, &f10L, &f4L, 2);
+
+	set_vector(n, &e10L, &e10L, &e10L, &e10L);
+	set_vector(p, &e10L, &f10L, &f10L, &zero10L);
 
 	MEASURE_TIME({vecp256k1mul(q,n,p);});
 	fprintf(FILE,"CPU-cycles for a 4-way vector field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
-
-	uint64 test64 = 0x7FFFFFFFFFFFFFFF;
 		// Single-way multiplication
+		
+	uint64 test64 = 0x7FFFFFFFFFFFFFFF;
+	
 	MEASURE_TIME({gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0x7FFFFFFFFFFFFFFF,0,0,0});});
 	fprintf(FILE,"CPU-cycles for a full field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+	
 	MEASURE_TIME({gfp256k1mulc(&res, &e4L, &test64);});
 	fprintf(FILE,"CPU-cycles for a small constant field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
