@@ -134,17 +134,21 @@ void ladder_setup(gfe_p256k1_4L *xQP, gfe_p256k1_4L *xRP, gfe_p256k1_4L *yQ, gfe
     // yP   = yP^2
     // xRP  = m^2 - xP3
     // yR   = 2*m*xRP + yP
+	uint64 u64three = 3;
+	uint64 u64four = 4;
 
 	// yP   = 4*((xP^2)*xP + 7)
 	gfe_p256k1_4L yP, xPxP, xPxPxP, yPt, yPt4;
 	gfp256k1sqr(&xPxP, xP);
 	gfp256k1mul(&xPxPxP, &xPxP, xP);
 	gfp256k1add(&yPt, &xPxPxP, &(gfe_p256k1_4L){7,0,0,0});
-	gfp256k1mul(&yP, &yPt, &(gfe_p256k1_4L){4,0,0,0});
+	gfp256k1mulc(&yP, &yPt, &u64four);
+	//gfp256k1mul(&yP, &yPt, &(gfe_p256k1_4L){4,0,0,0});
 
 	// xP3  = 3*xP
 	gfe_p256k1_4L xP3;
-	gfp256k1mul(&xP3, xP, &(gfe_p256k1_4L){3,0,0,0});
+	gfp256k1mulc(&xP3, xP, &u64three);
+	//gfp256k1mul(&xP3, xP, &(gfe_p256k1_4L){3,0,0,0});
 
 	// m    = xP*xP3
 	gfe_p256k1_4L m;
