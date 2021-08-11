@@ -82,8 +82,8 @@ int main() {
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te + e in 4-limb form:\n");
-	fprintf(FILE,"e hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te + e in 4-limb form:\n");
+	// fprintf(FILE,"e hex:\t\t");print_elem(&res);
 
 	// Test vector addition
 
@@ -96,8 +96,8 @@ int main() {
 
 	vecp256k1add(q, n, p);
 
-	fprintf(FILE,"\t<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
-	print_vector(q);
+	// fprintf(FILE,"\t<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
+	// print_vector(q);
 
 	// ------------------- Subtraction on GFp256-32-977 -------------------
 	// --------------------------------------------------------------------
@@ -112,29 +112,29 @@ int main() {
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te - e in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te - e in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
 	gfp256k1sub(&res, &e4L, &f4L);
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te - f in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te - f in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
 	gfp256k1sub(&res, &f4L, &e4L);
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\tf - e in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\tf - e in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
 	gfp256k1sub(&res, &zero4L, &e4L);
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\t0 - e in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\t0 - e in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
 	// Test vector subtraction
 
@@ -153,8 +153,8 @@ int main() {
 
 	vecp256k1sub(q, n, p);
 
-	fprintf(FILE,"\t<e,e,f,0> - <e,f,e,e> in 10-limb form:\n");
-	print_vector(q);
+	// fprintf(FILE,"\t<e,e,f,0> - <e,f,e,e> in 10-limb form:\n");
+	// print_vector(q);
 
 	// ------------------- Multiplication on GFp256-32-977 -------------------
 	// -----------------------------------------------------------------------
@@ -169,63 +169,63 @@ int main() {
 
 	// Test multiplication by a small constant
 
-	gfp256k1mulc(&res, &e4L, &one64);
+	// gfp256k1mulc(&res, &e4L, &one64);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * (uint64) 1 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * (uint64) 1 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mulc(&res, &e4L, &two64);
+	// gfp256k1mulc(&res, &e4L, &two64);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * (uint64) 2 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * (uint64) 2 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mulc(&res, &e4L, &F64);
+	// gfp256k1mulc(&res, &e4L, &F64);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * (uint64) 2^64 - 1 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * (uint64) 2^64 - 1 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0xFFFFFFFFFFFFFFFF,0,0,0});
+	// gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0xFFFFFFFFFFFFFFFF,0,0,0});
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * 2^64 - 1 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * 2^64 - 1 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	// Standard sequential muletiplication
+	// // Standard sequential muletiplication
 
-	gfp256k1mul(&res, &e4L, &one4L);
+	// gfp256k1mul(&res, &e4L, &one4L);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * 1 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * 1 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mul(&res, &e4L, &two4L);
+	// gfp256k1mul(&res, &e4L, &two4L);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * 2 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * 2 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mul(&res, &e4L, &e4L);
+	// gfp256k1mul(&res, &e4L, &e4L);
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * e in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * e in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
-	gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});
+	// gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});
 
-	gfp256k1makeunique(&res);
+	// gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\te * 0 in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	// fprintf(FILE,"\te * 0 in 4-limb form:\n");
+	// fprintf(FILE,"res hex:\t\t");print_elem(&res);
 
 	// Test vector multiplication
 
@@ -245,8 +245,8 @@ int main() {
 
 	vecp256k1mul(q, n, p);
 
-	fprintf(FILE,"\t<e,e,e,e> * <1,2,e,0> in 10-limb form:\n");
-	print_vector(q);
+	// fprintf(FILE,"\t<e,e,e,e> * <1,2,e,0> in 10-limb form:\n");
+	// print_vector(q);
 	
 	int i,j,k;
 	int count = 0;
@@ -290,6 +290,28 @@ int main() {
 		}
 	}
 	fprintf(FILE,"\n\nNumber of incorrect results = %d\n\n",count);
+	
+	// ------------------- Scalar Multiplication on secp256k1 -------------------
+	// --------------------------------------------------------------------------
+	
+	gfe_p256k1_4L Gx = {0x59f2815b16f81798,0x029bfcdb2dce28d9,0x55a06295ce870b07,0x79be667ef9dcbbac};
+	gfe_p256k1_4L n4L = {1,0,0,0};
+	gfe_p256k1_4L q4L;
+	
+	uchar8 nchar8[CRYPTO_BYTES];
+	uchar8 pchar8[CRYPTO_BYTES];
+	uchar8 qchar8[CRYPTO_BYTES];
+	
+	set_values(nchar8, &e10L, &n4L, 2);
+	set_values(pchar8, &e10L, &Gx, 2);
+
+	curve256k1_scalarmult(qchar8,nchar8,pchar8);
+	
+	set_values(qchar8, &e10L, &q4L, 0);
+	
+	fprintf(FILE,"[n] * G in 4-limb form:\n");
+	fprintf(FILE,"hex:\t\t");print_elem(&q4L);
+	
 
 	// ------------------- Measure CPU-cycles -------------------
 	// ----------------------------------------------------------
