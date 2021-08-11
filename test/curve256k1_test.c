@@ -315,11 +315,17 @@ int main() {
 	fprintf(FILE,"CPU-cycles for a 4-way vector field subtraction: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Multiplication
-	MEASURE_TIME({gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &f4L);});
+	MEASURE_TIME({gfp256k1mul(&res, &e4L, &e4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &f4L, &e4L);gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});});
 	fprintf(FILE,"CPU-cycles for 4 sequential field multiplications: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	MEASURE_TIME({vecp256k1mul(q,n,p);});
 	fprintf(FILE,"CPU-cycles for a 4-way vector field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+
+		// Single-way multiplication
+	MEASURE_TIME({gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0x7FFFFFFFFFFFFFFF,0,0,0});});
+	fprintf(FILE,"CPU-cycles for a full field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+	MEASURE_TIME({gfp256k1mulc(&res, &e4L, &(uint64)0x7FFFFFFFFFFFFFFF);});
+	fprintf(FILE,"CPU-cycles for a small constant field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// uchar8 n[CRYPTO_BYTES] = {102, 66, 236, 240, 6, 149, 92, 7, 43, 107, 163, 255, 64, 145, 5, 203, 230, 54, 147, 234, 197, 5, 215, 214, 124, 189, 226, 219, 235, 71, 20, 254};
 	// uchar8 p[CRYPTO_BYTES] = {9};
