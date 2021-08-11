@@ -57,8 +57,8 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Prepare n for non-zero initial state ladder
 	gfp256k1pack10(&n_10L, n);
 	gfp256k1pack104(&n_4L, &n_10L);
-	gfp256k1sub(&n_4L, &n_4L, &delta);
-	gfp256k1makeunique(&n_4L);
+	curve256k1subc(&n_4L, &n_4L);
+	//gfp256k1makeunique(&n_4L);
 
 	gfp256k1pack10(&xP_10L, p);
 	gfp256k1pack104(&xP, &xP_10L);
