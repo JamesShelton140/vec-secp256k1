@@ -123,6 +123,19 @@ void gfp256k1pack104(gfe_p256k1_4L *v, const gfe_p256k1_10L *u) {
     v->l[3] = ((u->l[7] & 0x0000000003FFFC00) >> 10) | ((u->l[8] & 0x0000000003FFFFFF) << 16) | ((u->l[9] & 0x00000000003FFFFF) << 42);
 }
 
+void gfp256k1pack410(gfe_p256k1_10L *v, const gfe_p256k1_4L *u) {
+	v->l[0] = ((u->l[0] & 0x0000000003FFFFFF));
+	v->l[1] = ((u->l[0] & 0x000FFFFFFC000000) >> 26);
+	v->l[2] = ((u->l[0] & 0xFFF0000000000000) >> 52) | ((u->l[1] & 0x0000000000003FFF) << 12);
+	v->l[3] = ((u->l[1] & 0x000000FFFFFFC000) >> 14);
+	v->l[4] = ((u->l[1] & 0xFFFFFF0000000000) >> 40) | ((u->l[2] & 0x0000000000000003) << 24);
+	v->l[5] = ((u->l[2] & 0x000000000FFFFFFC) >>  2);
+	v->l[6] = ((u->l[2] & 0x003FFFFFF0000000) >> 28);
+	v->l[7] = ((u->l[2] & 0xFFC0000000000000) >> 54) | ((u->l[3] & 0x000000000000FFFF) << 10);
+	v->l[8] = ((u->l[3] & 0x000003FFFFFF0000) >> 16);
+	v->l[9] = ((u->l[3] & 0xFFFFFC0000000000) >> 42);
+}
+
 void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
 	uchar8 i;
 	for (i=0; i<NLIMBS_VEC_10;++i) {
