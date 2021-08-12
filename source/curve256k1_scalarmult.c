@@ -48,7 +48,7 @@ void QR_ladder_step(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p2
 //Compute finalization of the scalar multiplication algorithm
 void final_step(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 
-void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xRP_10L, const gfe_p256k1_10L *yQ_10L, const gfe_p256k1_10L *yR_10L, const gfe_p256k1_10L *G_10L);
+void calculate_M(gfe_p256k1_4L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
 
 int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	gfe_p256k1_10L xQP_10L, xRP_10L, yQ_10L, yR_10L, G_10L, xP_10L, n_10L, temp;
@@ -65,6 +65,12 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 
 	// Ladder setup procedure
 	ladder_setup(&xQP, &xRP, &yQ, &yR, &G, &xP);
+
+	gfp256k1pack410(&xQP_10L, &xQP);
+	gfp256k1pack410(&xRP_10L, &xRP);
+	gfp256k1pack410(&yQ_10L, &yQ);
+	gfp256k1pack410(&yR_10L, &yR);
+	gfp256k1pack410(&G_10L, &G);
 
 	uint64 prevswap = 0;
 	uint64 swap;
