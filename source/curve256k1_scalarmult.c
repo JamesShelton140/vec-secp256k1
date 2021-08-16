@@ -87,7 +87,6 @@ fp = fopen("ivalues.txt", "w+");
 	int i, bit, limb;
 	for(i=255; i >= 0; i--) {
 	fprintf(STDOUT,"i:\t\t %u\n",i);
-	fprintf(fp,"%u",i);
 		// swap bit calc
 		// select bit at position i
         limb = i/64;
@@ -99,6 +98,7 @@ fp = fopen("ivalues.txt", "w+");
 	mask = (uint64)1 << bit;
     biti = mask & n_4L.l[limb];
 	fprintf(STDOUT,"bit i:\t\t %llu\n",biti>>bit);
+	fprintf(fp,"%llu",biti>>bit);
 	fprintf(STDOUT,"swap:\t\t %llu\n",swap);
 		// prevswap = prevswap xor swap
 	fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
