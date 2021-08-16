@@ -89,7 +89,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 		// swap = not(bit i)
         swap = (uint64)1 ^ ((uint64)1 & (n_4L.l[limb] >> bit));
 	mask = (uint64)1 << bit;
-    biti = mask & n->l[limb];
+    biti = mask & n_4L.l[limb];
 	fprintf(FILE,"bit i:\t\t %llu\n",biti);
 	fprintf(FILE,"swap:\t\t %llu\n",swap);
 		// prevswap = prevswap xor swap

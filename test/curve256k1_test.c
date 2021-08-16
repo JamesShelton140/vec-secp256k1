@@ -43,6 +43,8 @@
 #include "measure.h"
 #include "config.h"
 
+#include "util.h"
+
 #define change_input(x,y,z)  {x.l[0] = y.l[0]^z.l[0];}
 void print_elem(const gfe_p256k1_4L *);
 void print_vector(const vec *);
