@@ -63,7 +63,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Prepare n for non-zero initial state ladder
 	gfp256k1pack10(&n_10L, n);
 	gfp256k1pack104(&n_4L, &n_10L);
-	curve256k1subc(&n_4L, &n_4L);
+	//curve256k1subc(&n_4L, &n_4L);
 	//gfp256k1makeunique(&n_4L);
 
 	gfp256k1pack10(&xP_10L, p);
@@ -103,6 +103,10 @@ fp = fopen("ivalues.txt", "w+");
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
 		prevswap ^= swap;
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
+	gfp256k1pack104(&xQP, &xQP_10L);
+	gfp256k1pack104(&xRP, &xRP_10L);
+	fprintf(STDOUT,"xQP before swap:\t\t");print_elem(&xQP);
+	fprintf(STDOUT,"xRP before swap:\t\t");print_elem(&xRP);
 
 		//perform conditional swap
 		if(prevswap) {
@@ -125,11 +129,16 @@ fp = fopen("ivalues.txt", "w+");
 			yQ_10L = temp;
 		}
 		temp = ZERO_10L;
+	gfp256k1pack104(&xQP, &xQP_10L);
+	gfp256k1pack104(&xRP, &xRP_10L);
+	fprintf(STDOUT,"xQP after swap:\t\t");print_elem(&xQP);
+	fprintf(STDOUT,"xRP after swap:\t\t");print_elem(&xRP);
 
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
 		if(i==1) {
 			calculate_M(&M, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
+			fprintf(STDOUT,"making M\n");
 		}
 	
 	gfp256k1pack104(&yQ, &yQ_10L);
@@ -153,6 +162,7 @@ fp = fopen("ivalues.txt", "w+");
 		fprintf(STDOUT,"The neutral zone for G. i = %u\n\n",i);
 	}
 	fprintf(STDOUT,"xQP hex:\t\t");print_elem(&xQP);
+	fprintf(STDOUT,"xRP hex:\t\t");print_elem(&xRP);
 		// preevswap = swap
 		prevswap = swap;
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
