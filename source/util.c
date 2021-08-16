@@ -7,8 +7,8 @@ void print_elem(const gfe_p256k1_4L *e){
 	uchar8  i;
 
 	for (i=NLIMBS-1; i>0; --i) 
-		fprintf(FILE,"%16llX ",e->l[i]);
-	fprintf(FILE,"%16llX \n\n",e->l[0]);
+		fprintf(STDOUT,"%16llX ",e->l[i]);
+	fprintf(STDOUT,"%16llX \n\n",e->l[0]);
 }
 
 void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const int src){
@@ -40,6 +40,6 @@ void print_vector(const vec *V) {
 
 		gfp256k1makeunique(&res4L);
 
-		fprintf(FILE,"%d hex:\t\t",j);print_elem(&res4L);
+		fprintf(STDOUT,"%d hex:\t\t",j);print_elem(&res4L);
 	}
 }

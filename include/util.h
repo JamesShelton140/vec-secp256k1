@@ -6,7 +6,7 @@
 #include "basic_types.h"
 #include "gf_p256k1_type.h"
 
-#define FILE stdout
+#define STDOUT stdout
 
 void print_elem(const gfe_p256k1_4L *);
 void print_vector(const vec *);

@@ -45,6 +45,9 @@
 
 #include "util.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 void ladder_setup(gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, const gfe_p256k1_4L *);
 void QR_ladder_step(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *);
 //Compute finalization of the scalar multiplication algorithm
@@ -60,7 +63,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Prepare n for non-zero initial state ladder
 	gfp256k1pack10(&n_10L, n);
 	gfp256k1pack104(&n_4L, &n_10L);
-	curve256k1subc(&n_4L, &n_4L);
+	curve256k1subc(&n_4L, &n_4L);fprintf(STDOUT,"Adjusted scalar hex:\t\t");print_elem(&n_4L);
 	//gfp256k1makeunique(&n_4L);
 
 	gfp256k1pack10(&xP_10L, p);
@@ -75,27 +78,32 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	gfp256k1pack410(&yR_10L, &yR);
 	gfp256k1pack410(&G_10L, &G);
 
+FILE *fp;
+
+fp = fopen("ivalues.txt", "w+");
+
 	uint64 prevswap = 0;
 	uint64 swap; uint64 mask, biti;
 	int i, bit, limb;
 	for(i=255; i >= 0; i--) {
-	fprintf(FILE,"i:\t\t %u\n",i);
+	fprintf(STDOUT,"i:\t\t %u\n",i);
+	fprintf(fp,"%u",i);
 		// swap bit calc
 		// select bit at position i
         limb = i/64;
-	fprintf(FILE,"limb:\t\t %u\n",limb);
+	fprintf(STDOUT,"limb:\t\t %u\n",limb);
         bit = i%64;
-	fprintf(FILE,"bit:\t\t %u\n",bit);
+	fprintf(STDOUT,"bit:\t\t %u\n",bit);
 		// swap = not(bit i)
         swap = (uint64)1 ^ ((uint64)1 & (n_4L.l[limb] >> bit));
 	mask = (uint64)1 << bit;
     biti = mask & n_4L.l[limb];
-	fprintf(FILE,"bit i:\t\t %llu\n",biti>>bit);
-	fprintf(FILE,"swap:\t\t %llu\n",swap);
+	fprintf(STDOUT,"bit i:\t\t %llu\n",biti>>bit);
+	fprintf(STDOUT,"swap:\t\t %llu\n",swap);
 		// prevswap = prevswap xor swap
-	fprintf(FILE,"swap:\t\t %llu\n",prevswap);
+	fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
 		prevswap ^= swap;
-	fprintf(FILE,"swap:\t\t %llu\n",prevswap);
+	fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
 
 		//perform conditional swap
 		if(prevswap) {
@@ -127,8 +135,9 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 
 		// preevswap = swap
 		prevswap = swap;
-	fprintf(FILE,"swap:\t\t %llu\n\n",prevswap);
+	fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
 	}
+fclose(fp);
 
 	gfp256k1pack104(&xQP, &xQP_10L);
 	gfp256k1pack104(&xRP, &xRP_10L);

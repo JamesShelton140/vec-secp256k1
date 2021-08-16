@@ -369,8 +369,8 @@ int main() {
 
 	gfp256k1makeunique(&res);
 
-	fprintf(FILE,"\tn4L - delta in 4-limb form:\n");
-	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	fprintf(STDOUT,"\tn4L - delta in 4-limb form:\n");
+	fprintf(STDOUT,"res hex:\t\t");print_elem(&res);
 	
 	uchar8 nchar8[CRYPTO_BYTES];
 	uchar8 pchar8[CRYPTO_BYTES];
@@ -385,11 +385,11 @@ int main() {
 	gfp256k1pack10(&e10L, qchar8);
 	gfp256k1pack104(&q4L, &e10L);
 	
-	fprintf(FILE,"[n] * G in 4-limb form:\n");
-	fprintf(FILE,"hex:\t\t");print_elem(&q4L);
+	fprintf(STDOUT,"[n] * G in 4-limb form:\n");
+	fprintf(STDOUT,"hex:\t\t");print_elem(&q4L);
 	
 	//MEASURE_TIME({curve256k1_scalarmult(qchar8,nchar8,pchar8);});
-	//fprintf(FILE,"CPU-cycles for a scalar multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));	
+	//fprintf(STDOUT,"CPU-cycles for a scalar multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));	
 	
 
 	// ------------------- Measure CPU-cycles -------------------
