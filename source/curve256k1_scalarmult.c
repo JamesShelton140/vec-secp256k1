@@ -127,7 +127,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 
 		// preevswap = swap
 		prevswap = swap;
-	fprintf(FILE,"swap:\t\t %llu\n",prevswap);
+	fprintf(FILE,"swap:\t\t %llu\n\n",prevswap);
 	}
 
 	gfp256k1pack104(&xQP, &xQP_10L);
