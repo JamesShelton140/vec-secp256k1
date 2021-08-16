@@ -1,5 +1,6 @@
 #include "util.h"
 #include "gf_p256k1_pack.h"
+#include "gf_p256k1_arith.h"
 
 void print_elem(const gfe_p256k1_4L *e){
 
