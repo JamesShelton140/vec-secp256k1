@@ -152,6 +152,7 @@ fp = fopen("ivalues.txt", "w+");
 	if(G.l[0] == 0 && G.l[1] == 0 && G.l[2] == 0 && G.l[3] == 0) {
 		fprintf(STDOUT,"The neutral zone for G. i = %u\n\n",i);
 	}
+	fprintf(STDOUT,"xQP hex:\t\t");print_elem(&xQP);
 		// preevswap = swap
 		prevswap = swap;
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
