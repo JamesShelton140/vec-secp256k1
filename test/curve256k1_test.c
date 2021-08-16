@@ -355,6 +355,41 @@ int main() {
 	#endif
 	#endif
 
+	// ------------------- Scalar Multiplication on secp256k1 -------------------
+	// --------------------------------------------------------------------------
+
+	gfe_p256k1_4L Gx = {0x59f2815b16f81798,0x029bfcdb2dce28d9,0x55a06295ce870b07,0x79be667ef9dcbbac};
+	//gfe_p256k1_4L n4L = {0x402DA1732FC9BEC0,0x4551231950B75FC4,1,0};
+	gfe_p256k1_4L n4L = {3,0,0,0};
+	gfe_p256k1_4L q4L;
+	
+	curve256k1sub(&res, &n4L, &(gfe_p256k1_4L){0x402DA1732FC9BEBF,0x4551231950B75FC4,1,0});
+
+	gfp256k1makeunique(&res);
+
+	fprintf(FILE,"\tn4L - delta in 4-limb form:\n");
+	fprintf(FILE,"res hex:\t\t");print_elem(&res);
+	
+	uchar8 nchar8[CRYPTO_BYTES];
+	uchar8 pchar8[CRYPTO_BYTES];
+	uchar8 qchar8[CRYPTO_BYTES];
+	
+	set_values(nchar8, &e10L, &n4L, 2);
+	set_values(pchar8, &e10L, &Gx, 2);
+
+	curve256k1_scalarmult(qchar8,nchar8,pchar8);
+	
+	//set_values(qchar8, &e10L, &q4L, 0);
+	gfp256k1pack10(&e10L, qchar8);
+	gfp256k1pack104(&q4L, &e10L);
+	
+	fprintf(FILE,"[n] * G in 4-limb form:\n");
+	fprintf(FILE,"hex:\t\t");print_elem(&q4L);
+	
+	//MEASURE_TIME({curve256k1_scalarmult(qchar8,nchar8,pchar8);});
+	//fprintf(FILE,"CPU-cycles for a scalar multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));	
+	
+
 	// ------------------- Measure CPU-cycles -------------------
 	// ----------------------------------------------------------
 
