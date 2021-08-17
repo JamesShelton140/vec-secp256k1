@@ -136,7 +136,7 @@ fp = fopen("ivalues.txt", "w+");
 
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
-		if(i==0) {
+		if(i==1) {
 			calculate_M(&M, &xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L, swap);
 			fprintf(STDOUT,"making M\n");
 		}
