@@ -136,7 +136,7 @@ fp = fopen("ivalues.txt", "w+");
 
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
-		if(i==1) {
+		if(i==0) {
 			calculate_M(&M, &xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L, swap);
 			fprintf(STDOUT,"making M\n");
 		}
@@ -287,18 +287,17 @@ void QR_ladder_step(gfe_p256k1_10L *xQP, gfe_p256k1_10L *xRP, gfe_p256k1_10L *yQ
 void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xQP_10L, const gfe_p256k1_10L *xRP_10L, const gfe_p256k1_10L *yQ_10L, const gfe_p256k1_10L *yR_10L, const gfe_p256k1_10L *G_10L, const uint64 swap) {
 	gfe_p256k1_4L xRP, yQ, yR, G, H, L, J, Mt, xRPrime;
 
-	if(swap){
+	// if(swap){
 		gfp256k1pack104(&xRP, xRP_10L);
 		gfp256k1pack104(&yQ, yQ_10L);
 		gfp256k1pack104(&yR, yR_10L);
 		gfp256k1pack104(&G, G_10L);
-	} else {
-		gfp256k1pack104(&xRP, xQP_10L);
-		gfp256k1pack104(&yQ, yR_10L);
-		gfp256k1pack104(&yR, yQ_10L);
-		gfp256k1pack104(&G, G_10L);
-	}
-	
+	// } else {
+	// 	gfp256k1pack104(&xRP, xQP_10L);
+	// 	gfp256k1pack104(&yQ, yR_10L);
+	// 	gfp256k1pack104(&yR, yQ_10L);
+	// 	gfp256k1pack104(&G, G_10L);
+	// }
 
 	// H 		= yR^2
 	gfp256k1sqr(&H, &yR);
