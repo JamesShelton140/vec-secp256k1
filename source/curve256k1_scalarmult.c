@@ -54,7 +54,7 @@ void QR_ladder_step(gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p256k1_10L *, gfe_p2
 void final_step(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 void shadow_steps(gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, gfe_p256k1_4L *, uint64, gfe_p256k1_4L *);
 
-void calculate_M(gfe_p256k1_4L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *);
+void calculate_M(gfe_p256k1_4L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const gfe_p256k1_10L *, const uint64);
 
 int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	gfe_p256k1_10L xQP_10L, xRP_10L, yQ_10L, yR_10L, G_10L, xP_10L, n_10L, temp;
@@ -137,7 +137,7 @@ fp = fopen("ivalues.txt", "w+");
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
 		if(i==1) {
-			calculate_M(&M, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
+			calculate_M(&M, &xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L, swap);
 			fprintf(STDOUT,"making M\n");
 		}
 	
@@ -284,13 +284,21 @@ void QR_ladder_step(gfe_p256k1_10L *xQP, gfe_p256k1_10L *xRP, gfe_p256k1_10L *yQ
 	unpack_vector(&bin, xRP, &bin, yR, q);
 }
 
-void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xRP_10L, const gfe_p256k1_10L *yQ_10L, const gfe_p256k1_10L *yR_10L, const gfe_p256k1_10L *G_10L) {
+void calculate_M(gfe_p256k1_4L *M, const gfe_p256k1_10L *xQP_10L, const gfe_p256k1_10L *xRP_10L, const gfe_p256k1_10L *yQ_10L, const gfe_p256k1_10L *yR_10L, const gfe_p256k1_10L *G_10L, const uint64 swap) {
 	gfe_p256k1_4L xRP, yQ, yR, G, H, L, J, Mt, xRPrime;
 
-	gfp256k1pack104(&xRP, xRP_10L);
-	gfp256k1pack104(&yQ, yQ_10L);
-	gfp256k1pack104(&yR, yR_10L);
-	gfp256k1pack104(&G, G_10L);
+	if(swap){
+		gfp256k1pack104(&xRP, xRP_10L);
+		gfp256k1pack104(&yQ, yQ_10L);
+		gfp256k1pack104(&yR, yR_10L);
+		gfp256k1pack104(&G, G_10L);
+	} else {
+		gfp256k1pack104(&xRP, xQP_10L);
+		gfp256k1pack104(&yQ, yR_10L);
+		gfp256k1pack104(&yR, yQ_10L);
+		gfp256k1pack104(&G, G_10L);
+	}
+	
 
 	// H 		= yR^2
 	gfp256k1sqr(&H, &yR);
