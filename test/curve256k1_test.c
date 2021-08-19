@@ -75,13 +75,13 @@ int main() {
 		return 1;
 	#endif
 
+	PRINTFILE = fopen("output.txt", "w+");
+
 	#if defined(DEFAULT_TEST_VALUES)
 		fprintf(PRINTFILE, "Default values:\n");
 		fprintf(PRINTFILE, "e = ");print_elem(&E_VALUE);
 		fprintf(PRINTFILE, "f = ");print_elem(&F_VALUE);
 	#endif
-
-	PRINTFILE = fopen("output.txt", "w+");
 
 	// ------------------- Addition on GFp256-32-977 -------------------
 	// -----------------------------------------------------------------
@@ -157,7 +157,7 @@ int main() {
 
 	gfp256k1sub(&res1, &a1_4L, &b1_4L);
 	gfp256k1sub(&res2, &a2_4L, &b2_4L);
-	gfp256k1sub(&res3, &b3_4L, &a3_4L);
+	gfp256k1sub(&res3, &a3_4L, &b3_4L);
 	gfp256k1sub(&res4, &a4_4L, &b4_4L);
 
 	gfp256k1makeunique(&res1);
