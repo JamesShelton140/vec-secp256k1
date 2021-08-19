@@ -2,8 +2,8 @@
 +-------------------------------------------------------------------------------+
 |  This file has the performance measurement strategy used in the paper titled  |
 |  "The Software Performance of Authenticated-Encryption Modes" by the authors  |
-|  Ted Krovetz and Phillip Rogaway. 						|
-|  Web link: http://dx.doi.org/10.1007/978-3-642-21702-9_18			|
+|  Ted Krovetz and Phillip Rogaway. 											|
+|  Web link: http://dx.doi.org/10.1007/978-3-642-21702-9_18						|
 +-------------------------------------------------------------------------------+
 */
 

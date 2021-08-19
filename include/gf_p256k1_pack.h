@@ -1,13 +1,9 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the the paper "Efficient 4-way Vectorizations of   |
-| the Montgomery Ladder" authored by   			       	       	      |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
-+-----------------------------------------------------------------------------+
 | Copyright (c) 2020, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
-| Permission to use this code is granted.                          	      |
+| Permission to use this code is granted.                          	      	  |
 |                                                                             |
 | Redistribution and use in source and binary forms, with or without          |
 | modification, are permitted provided that the following conditions are      |

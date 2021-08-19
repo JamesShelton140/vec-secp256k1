@@ -1,11 +1,7 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the the paper "Efficient 4-way Vectorizations of   |
-| the Montgomery Ladder" authored by   			       	       	      		  |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
-+-----------------------------------------------------------------------------+
 | Copyright (c) 2020, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
 | Permission to use this code is granted.                          	      	  |
 |                                                                             |
@@ -55,6 +51,8 @@ void get_field_element(gfe_p256k1_4L *);
 void get_vector(vec *);
 void set_defaults();
 void pack_10l_operands();
+void get_a();
+void get_b();
 
 static FILE *PRINTFILE;
 static gfe_p256k1_4L a1_4L, a2_4L, a3_4L, a4_4L, b1_4L, b2_4L, b3_4L, b4_4L, res1, res2, res3, res4;
@@ -93,6 +91,8 @@ int main() {
 	set_defaults();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	gfp256k1add(&res1, &a1_4L, &b1_4L);
@@ -127,6 +127,8 @@ int main() {
 	pack_10l_operands();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
@@ -153,6 +155,8 @@ int main() {
 	set_defaults();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	gfp256k1sub(&res1, &a1_4L, &b1_4L);
@@ -187,6 +191,8 @@ int main() {
 	pack_10l_operands();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
@@ -213,6 +219,7 @@ int main() {
 	set_defaults();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_b();
 	#endif
 
 	gfp256k1neg(&res1, &b1_4L);
@@ -248,6 +255,8 @@ int main() {
 	set_defaults();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	gfp256k1mul(&res1, &a1_4L, &b1_4L);
@@ -282,6 +291,8 @@ int main() {
 	pack_10l_operands();
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	get_b();
 	#endif
 
 	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
@@ -305,12 +316,18 @@ int main() {
 	uint64 b1_64, b2_64, b3_64, b4_64;
 
 	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
 	b1_64 = (uint64)0;
 	b2_64 = (uint64)1;
 	b3_64 = (uint64)2;
 	b4_64 = 0xFFFFFFFFFFFFFFFF;
 	#endif
 	#if defined(USER_TEST_VALUES)
+	get_a();
+	printf("b1: ");scanf("%llX", &b1_64);
+	printf("b2: ");scanf("%llX", &b2_64);
+	printf("b3: ");scanf("%llX", &b3_64);
+	printf("b4: ");scanf("%llX", &b4_64);
 	#endif
 
 	gfp256k1mulc(&res1, &a1_4L, &b1_64);
@@ -480,4 +497,26 @@ void pack_10l_operands() {
 	gfp256k1pack410(&b2_10L, &b2_4L);
 	gfp256k1pack410(&b3_10L, &b3_4L);
 	gfp256k1pack410(&b4_10L, &b4_4L);
+}
+
+void get_a(){
+	printf("a1: \n");
+	get_field_element(&a1_4L);
+	printf("a2: \n");
+	get_field_element(&a2_4L);
+	printf("a3: \n");
+	get_field_element(&a3_4L);
+	printf("a4: \n");
+	get_field_element(&a4_4L);
+}
+
+void get_b(){
+	printf("b1: \n");
+	get_field_element(&b1_4L);
+	printf("b2: \n");
+	get_field_element(&b2_4L);
+	printf("b3: \n");
+	get_field_element(&b3_4L);
+	printf("b4: \n");
+	get_field_element(&b4_4L);
 }
