@@ -38,7 +38,7 @@ $(EXE): $(OBJFLS)
 ../bin/%.o: ../source/%.s
 	$(ASM) -o $@ $<
 
-./curve256k1_test.o: ./curve256k1_test.c
+./curve256k1_test.o: ./curve256k1_test.c ./config.h
 	$(CC) $(INCDRS) $(CFLAGS) -w -o $@ -c $<
 	
 clean:
