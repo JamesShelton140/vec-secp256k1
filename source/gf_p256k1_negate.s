@@ -2,8 +2,8 @@
 // On call: %rdi = &q, %rsi &p
 
 .p2align 5
-.globl gfp256k1negate
-gfp256k1negate:
+.globl gfp256k1neg
+gfp256k1neg:
 
 push    %rbp
 push    %rbx

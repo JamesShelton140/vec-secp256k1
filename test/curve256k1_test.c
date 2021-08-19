@@ -53,285 +53,329 @@ void print_vector(const vec *);
 void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
 void get_field_element(gfe_p256k1_4L *);
 void get_vector(vec *);
+void set_defaults();
+void pack_10l_operands();
+
+static FILE *PRINTFILE;
+static gfe_p256k1_4L a1_4L, a2_4L, a3_4L, a4_4L, b1_4L, b2_4L, b3_4L, b4_4L, res1, res2, res3, res4;
+static gfe_p256k1_10L a1_10L, a2_10L, a3_10L, a4_10L, b1_10L, b2_10L, b3_10L, b4_10L, res_10L;
+static const gfe_p256k1_4L E_VALUE = {0xFFFFFFFEFFFFFC2D,-1,-1,-1};
+static const gfe_p256k1_4L F_VALUE = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
+static const gfe_p256k1_4L ZERO_4L = {0,0,0,0};
+static const gfe_p256k1_4L ONE_4L = {1,0,0,0};
+static const gfe_p256k1_4L TWO_4L = {2,0,0,0};
+static vec n[NLIMBS_VEC_10] = {0};
+static vec p[NLIMBS_VEC_10] = {0};
+static vec q[NLIMBS_VEC_10] = {0};
 
 int main() {
-	FILE *PRINTFILE;
-
-	PRINTFILE = fopen("output.txt", "w+");
 
 	#if !defined(DEFAULT_TEST_VALUES) && !defined(USER_TEST_VALUES)
 		printf("Define test values to be used in 'config.h'\n");
 		return 1;
 	#endif
 
-	const gfe_p256k1_4L E_VALUE = {0xFFFFFFFEFFFFFC2E,-1,-1,-1};
-	// const gfe_p256k1_4L E_VALUE = {3,0,0,0};
-	// const gfe_p256k1_4L E_VALUE = {3,0xFFFFF,3,3};
+	#if defined(DEFAULT_TEST_VALUES)
+		fprintf(PRINTFILE, "Default values:\n");
+		fprintf(PRINTFILE, "e = ");print_elem(&E_VALUE);
+		fprintf(PRINTFILE, "f = ");print_elem(&F_VALUE);
+	#endif
 
-	const gfe_p256k1_4L F_VALUE = {0xFFFFFFFEFFFFFC2D,-1,-1,-1};
-
-	const gfe_p256k1_4L ZERO_4L = {0,0,0,0};
-
-	gfe_p256k1_4L e4L = E_VALUE;
-	gfe_p256k1_4L f4L = F_VALUE;
-	gfe_p256k1_4L zero4L = ZERO_4L;
-	gfe_p256k1_4L one4L = {1,0,0,0};
-	gfe_p256k1_4L two4L = {2,0,0,0};
-	gfe_p256k1_4L res;
-
-	uchar8 echar8[CRYPTO_BYTES];
-	gfe_p256k1_10L e10L;
+	PRINTFILE = fopen("output.txt", "w+");
 
 	// ------------------- Addition on GFp256-32-977 -------------------
 	// -----------------------------------------------------------------
-	#if defined(SEQ_ADD_TEST)
+	#if defined(SEQ_ADD_TEST) || defined(ALL_FUNCTION_TESTS)
 	// Test sequential addition
+	fprintf(PRINTFILE,"------------------- Sequential Addition -------------------\n\n");
 
-	set_values(echar8, &e10L, &e4L, 2);
-
-	gfp256k1add(&res, &e4L, &e4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te + e in 4-limb form:\n");
-	fprintf(PRINTFILE,"e hex:\t\t");print_elem(&res);
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	#endif
+	#if defined(USER_TEST_VALUES)
 	#endif
 
-	#if defined(VEC_ADD_TEST)
+	gfp256k1add(&res1, &a1_4L, &b1_4L);
+	gfp256k1add(&res2, &a2_4L, &b2_4L);
+	gfp256k1add(&res3, &a3_4L, &b3_4L);
+	gfp256k1add(&res4, &a4_4L, &b4_4L);
+
+	gfp256k1makeunique(&res1);
+	gfp256k1makeunique(&res2);
+	gfp256k1makeunique(&res3);
+	gfp256k1makeunique(&res4);
+
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"e + 0:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"e + 1:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"e + 2:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"e + f:\t\t");print_elem(&res4);
+	#else
+	fprintf(PRINTFILE,"a1 + b1:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"a2 + b2:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"a3 + b3:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"a4 + b4:\t\t");print_elem(&res4);
+	#endif
+	#endif
+
+	#if defined(VEC_ADD_TEST) || defined(ALL_FUNCTION_TESTS)
 	// Test vector addition
+	fprintf(PRINTFILE,"------------------- Vector Addition -------------------\n\n");
 
-	vec n[NLIMBS_VEC_10] = {0};
-	vec p[NLIMBS_VEC_10] = {0};
-	vec q[NLIMBS_VEC_10] = {0};
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	pack_10l_operands();
+	#endif
+	#if defined(USER_TEST_VALUES)
+	#endif
 
-	set_vector(n, &e10L, &e10L, &e10L, &e10L);
-	set_vector(p, &e10L, &e10L, &e10L, &e10L);
+	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
+	set_vector(p, &b1_10L, &b2_10L, &b3_10L, &b4_10L);
 
 	vecp256k1add(q, n, p);
 
-	fprintf(PRINTFILE,"\t<e,e,e,e> + <e,e,e,e> in 10-limb form:\n");
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"<e,e,e,e> + <0,1,2,f>:\n");
+	#else
+	fprintf(PRINTFILE,"<a1,a2,a3,a4> + <b1,b2,b3,b4>:\n");
+	#endif
+
 	print_vector(q);
 	#endif
 
 	// ------------------- Subtraction on GFp256-32-977 -------------------
 	// --------------------------------------------------------------------
-	#if defined(SEQ_SUB_TEST)
+	#if defined(SEQ_SUB_TEST) || defined(ALL_FUNCTION_TESTS)
 	// Test sequential subtraction
+	fprintf(PRINTFILE,"------------------- Sequential Subtraction -------------------\n\n");
 
-	e4L = E_VALUE;
-	f4L = F_VALUE;
-	zero4L = ZERO_4L;
-
-	gfp256k1sub(&res, &e4L, &e4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te - e in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1sub(&res, &e4L, &f4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te - f in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1sub(&res, &f4L, &e4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\tf - e in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1sub(&res, &zero4L, &e4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\t0 - e in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	#endif
+	#if defined(USER_TEST_VALUES)
 	#endif
 
-	#if defined(VEC_SUB_TEST)
+	gfp256k1sub(&res1, &a1_4L, &b1_4L);
+	gfp256k1sub(&res2, &a2_4L, &b2_4L);
+	gfp256k1sub(&res3, &b3_4L, &a3_4L);
+	gfp256k1sub(&res4, &a4_4L, &b4_4L);
+
+	gfp256k1makeunique(&res1);
+	gfp256k1makeunique(&res2);
+	gfp256k1makeunique(&res3);
+	gfp256k1makeunique(&res4);
+
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"e - 0:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"e - 1:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"e - 2:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"e - f:\t\t");print_elem(&res4);
+	#else
+	fprintf(PRINTFILE,"a1 - b1:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"a2 - b2:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"a3 - b3:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"a4 - b4:\t\t");print_elem(&res4);
+	#endif
+	#endif
+
+	#if defined(VEC_SUB_TEST) || defined(ALL_FUNCTION_TESTS)
 	// Test vector subtraction
+	fprintf(PRINTFILE,"------------------- Vector Subtraction -------------------\n\n");
 
-	gfe_p256k1_10L f10L, zero10L;
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	pack_10l_operands();
+	#endif
+	#if defined(USER_TEST_VALUES)
+	#endif
 
-	e4L = E_VALUE;
-	f4L =  F_VALUE;
-	zero4L = ZERO_4L;
-
-	set_values(echar8, &e10L, &e4L, 2);
-	set_values(echar8, &f10L, &f4L, 2);
-	set_values(echar8, &zero10L, &zero4L, 2);
-	
-	set_vector(n, &e10L, &e10L, &f10L, &zero10L);
-	set_vector(p, &e10L, &f10L, &e10L, &e10L);
+	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
+	set_vector(p, &b1_10L, &b2_10L, &b3_10L, &b4_10L);
 
 	vecp256k1sub(q, n, p);
 
-	fprintf(PRINTFILE,"\t<e,e,f,0> - <e,f,e,e> in 10-limb form:\n");
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"<e,e,e,e> - <0,1,2,f>:\n");
+	#else
+	fprintf(PRINTFILE,"<a1,a2,a3,a4> - <b1,b2,b3,b4>:\n");
+	#endif
+
 	print_vector(q);
+	#endif
+
+	// ------------------- Negation on GFp256-32-977 -------------------
+	// --------------------------------------------------------------------
+	#if defined(SEQ_NEG_TEST) || defined(ALL_FUNCTION_TESTS)
+	// Test sequential negation
+	fprintf(PRINTFILE,"------------------- Sequential Negation -------------------\n\n");
+
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	#endif
+	#if defined(USER_TEST_VALUES)
+	#endif
+
+	gfp256k1neg(&res1, &b1_4L);
+	gfp256k1neg(&res2, &b2_4L);
+	gfp256k1neg(&res3, &b3_4L);
+	gfp256k1neg(&res4, &b4_4L);
+
+	gfp256k1makeunique(&res1);
+	gfp256k1makeunique(&res2);
+	gfp256k1makeunique(&res3);
+	gfp256k1makeunique(&res4);
+
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"-0:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"-1:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"-2:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"-f:\t\t");print_elem(&res4);
+	#else
+	fprintf(PRINTFILE,"-b1:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"-b2:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"-b3:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"-b4:\t\t");print_elem(&res4);
+	#endif
 	#endif
 
 	// ------------------- Multiplication on GFp256-32-977 -------------------
 	// -----------------------------------------------------------------------
-	#if defined(SEQ_MULC_TEST)
-	// Test sequential multiplication
-	e4L = E_VALUE;
-	f4L = F_VALUE;
-	zero4L = ZERO_4L;
-	uint64 one64 = 1;
-	uint64 two64 = 2;
-	uint64 F64 = 0xFFFFFFFFFFFFFFFF;
+	#if defined(SEQ_MUL_TEST) || defined(ALL_FUNCTION_TESTS)
+	// Test sequential Multiplication
+	fprintf(PRINTFILE,"------------------- Sequential Multiplication -------------------\n\n");
 
-	// Test multiplication by a small constant
-
-	gfp256k1mulc(&res, &e4L, &one64);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * (uint64) 1 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mulc(&res, &e4L, &two64);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * (uint64) 2 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mulc(&res, &e4L, &F64);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * (uint64) 2^64 - 1 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0xFFFFFFFFFFFFFFFF,0,0,0});
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * 2^64 - 1 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	#endif
+	#if defined(USER_TEST_VALUES)
 	#endif
 
-	#if defined(SEQ_MUL_TEST)
-	// Standard sequential multiplication
+	gfp256k1mul(&res1, &a1_4L, &b1_4L);
+	gfp256k1mul(&res2, &a2_4L, &b2_4L);
+	gfp256k1mul(&res3, &a3_4L, &b3_4L);
+	gfp256k1mul(&res4, &a4_4L, &b4_4L);
 
-	gfp256k1mul(&res, &e4L, &one4L);
+	gfp256k1makeunique(&res1);
+	gfp256k1makeunique(&res2);
+	gfp256k1makeunique(&res3);
+	gfp256k1makeunique(&res4);
 
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * 1 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mul(&res, &e4L, &two4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * 2 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mul(&res, &e4L, &e4L);
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * e in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
-
-	gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});
-
-	gfp256k1makeunique(&res);
-
-	fprintf(PRINTFILE,"\te * 0 in 4-limb form:\n");
-	fprintf(PRINTFILE,"res hex:\t\t");print_elem(&res);
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"e * f:\t\t");print_elem(&res4);
+	#else
+	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(&res4);
+	#endif
 	#endif
 
-	#if defined(VEC_MUL_TEST)
-	// Test vector multiplication
+	#if defined(VEC_MUL_TEST) || defined(ALL_FUNCTION_TESTS)
+	// Test vector Multiplication
+	fprintf(PRINTFILE,"------------------- Vector Multiplication -------------------\n\n");
 
-	gfe_p256k1_10L one10L, two10L;
+	#if defined(DEFAULT_TEST_VALUES)
+	set_defaults();
+	pack_10l_operands();
+	#endif
+	#if defined(USER_TEST_VALUES)
+	#endif
 
-	e4L = E_VALUE;
-	f4L =  F_VALUE;
-	zero4L = ZERO_4L;
-
-	set_values(echar8, &e10L, &e4L, 2);
-	set_values(echar8, &one10L, &one4L, 2);
-	set_values(echar8, &two10L, &two4L, 2);
-	set_values(echar8, &zero10L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF}, 2);
-	
-	set_vector(n, &e10L, &e10L, &e10L, &e10L);
-	set_vector(p, &one10L, &two10L, &e10L, &zero10L);
+	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
+	set_vector(p, &b1_10L, &b2_10L, &b3_10L, &b4_10L);
 
 	vecp256k1mul(q, n, p);
 
-	fprintf(PRINTFILE,"\t<e,e,e,e> * <1,2,e,0> in 10-limb form:\n");
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"<e,e,e,e> * <0,1,2,f>:\n");
+	#else
+	fprintf(PRINTFILE,"<a1,a2,a3,a4> * <b1,b2,b3,b4>:\n");
+	#endif
+
 	print_vector(q);
+	#endif
+
+
+	#if defined(SEQ_MULC_TEST) || defined(ALL_FUNCTION_TESTS)
+	// Test sequential Multiplication
+	fprintf(PRINTFILE,"------------------- Sequential Multiplication by Small Constant -------------------\n\n");
+	uint64 b1_64, b2_64, b3_64, b4_64;
+
+	#if defined(DEFAULT_TEST_VALUES)
+	b1_64 = (uint64)0;
+	b2_64 = (uint64)1;
+	b3_64 = (uint64)2;
+	b4_64 = 0xFFFFFFFFFFFFFFFF;
+	#endif
+	#if defined(USER_TEST_VALUES)
+	#endif
+
+	gfp256k1mulc(&res1, &a1_4L, &b1_64);
+	gfp256k1mulc(&res2, &a2_4L, &b2_64);
+	gfp256k1mulc(&res3, &a3_4L, &b3_64);
+	gfp256k1mulc(&res4, &a4_4L, &b4_64);
+
+	gfp256k1makeunique(&res1);
+	gfp256k1makeunique(&res2);
+	gfp256k1makeunique(&res3);
+	gfp256k1makeunique(&res4);
+
+	#if defined(DEFAULT_TEST_VALUES)
+	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"e * 2^64-1:\t\t");print_elem(&res4);
+	#else
+	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(&res1);
+	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(&res2);
+	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(&res3);
+	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(&res4);
+	#endif
 	#endif
 
 	// ------------------- Measure CPU-cycles -------------------
 	// ----------------------------------------------------------
 
-	#if defined(CPU_TESTS)
-	e4L = E_VALUE;
-	f4L = F_VALUE;
-	
-	set_values(echar8, &e10L, &e4L, 2);
-	set_values(echar8, &f10L, &f4L, 2);
-	set_values(echar8, &one10L, &one4L, 2);
-	set_values(echar8, &two10L, &two4L, 2);
-	
-	set_vector(n, &e10L, &e10L, &e10L, &e10L);
-	set_vector(p, &e10L, &f10L, &one10L, &two10L);
+	#if defined(SPEED_TESTS)
+	fprintf(PRINTFILE,"------------------- Measuring CPU Cycles -------------------\n\n");
+
+	set_defaults();
+	pack_10l_operands();
+	set_vector(n, &a1_10L, &a2_10L, &a3_10L, &a4_10L);
+	set_vector(p, &b1_10L, &b2_10L, &b3_10L, &b4_10L);
 
 	// Addition
-	MEASURE_TIME({gfp256k1add(&res, &e4L, &e4L);gfp256k1add(&res, &e4L, &f4L);gfp256k1add(&res, &e4L, &one4L);gfp256k1add(&res, &e4L, &two4L);});
+	MEASURE_TIME({gfp256k1add(&res1, &a1_4L, &b1_4L);gfp256k1add(&res2, &a2_4L, &b2_4L);gfp256k1add(&res3, &a3_4L, &b3_4L);gfp256k1add(&res4, &a4_4L, &b4_4L);});
 	fprintf(PRINTFILE,"CPU-cycles for 4 sequential field additions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
-
-    set_values(echar8, &e10L, &e4L, 2);
-	set_values(echar8, &f10L, &f4L, 2);
-	set_values(echar8, &one10L, &one4L, 2);
-	set_values(echar8, &two10L, &two4L, 2);
-	
-	set_vector(n, &e10L, &e10L, &e10L, &e10L);
-	set_vector(p, &e10L, &f10L, &one10L, &two10L);
 
 	MEASURE_TIME({vecp256k1add(q,n,p);});
 	fprintf(PRINTFILE,"CPU-cycles for a 4-way vector field addition: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Subtraction
-	MEASURE_TIME({gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);gfp256k1sub(&res, &e4L, &f4L);});
+	MEASURE_TIME({gfp256k1sub(&res1, &a1_4L, &b1_4L);gfp256k1sub(&res2, &a2_4L, &b2_4L);gfp256k1sub(&res3, &a3_4L, &b3_4L);gfp256k1sub(&res4, &a4_4L, &b4_4L);});
 	fprintf(PRINTFILE,"CPU-cycles for 4 sequential field subtractions: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
-
-	set_vector(n, &e10L, &e10L, &f10L, &zero10L);
-	set_vector(p, &e10L, &f10L, &e10L, &e10L);
 
 	MEASURE_TIME({vecp256k1sub(q,n,p);});
 	fprintf(PRINTFILE,"CPU-cycles for a 4-way vector field subtraction: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Multiplication
-	MEASURE_TIME({gfp256k1mul(&res, &e4L, &e4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &f4L);gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0,0,0,0x7FFFFFFFFFFFFFFF});});
+	MEASURE_TIME({gfp256k1mul(&res1, &a1_4L, &b1_4L);gfp256k1mul(&res2, &a2_4L, &b2_4L);gfp256k1mul(&res3, &a3_4L, &b3_4L);gfp256k1mul(&res4, &a4_4L, &b4_4L);});
 	fprintf(PRINTFILE,"CPU-cycles for 4 sequential field multiplications: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
-
-    set_values(echar8, &e10L, &e4L, 2);
-	set_values(echar8, &f10L, &f4L, 2);
-
-	set_vector(n, &e10L, &e10L, &e10L, &e10L);
-	set_vector(p, &e10L, &f10L, &f10L, &zero10L);
 
 	MEASURE_TIME({vecp256k1mul(q,n,p);});
 	fprintf(PRINTFILE,"CPU-cycles for a 4-way vector field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 
 	// Single-way multiplication
-		
 	uint64 test64 = 0x7FFFFFFFFFFFFFFF;
 	
-	MEASURE_TIME({gfp256k1mul(&res, &e4L, &(gfe_p256k1_4L){0x7FFFFFFFFFFFFFFF,0,0,0});});
+	MEASURE_TIME({gfp256k1mul(&res1, &a1_4L, &(gfe_p256k1_4L){0x7FFFFFFFFFFFFFFF,0,0,0});});
 	fprintf(PRINTFILE,"CPU-cycles for a full field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 	
-	MEASURE_TIME({gfp256k1mulc(&res, &e4L, &test64);});
-	fprintf(PRINTFILE,"CPU-cycles for a small constant field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
+	MEASURE_TIME({gfp256k1mulc(&res1, &a1_4L, &test64);});
+	fprintf(PRINTFILE,"CPU-cycles for a small-constant field multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));
 	#endif
 
 	fclose(PRINTFILE);
@@ -377,7 +421,7 @@ void print_vector(const vec *V) {
 
 		gfp256k1makeunique(&res4L);
 
-		fprintf(PRINTFILE,"%d hex:\t\t",j);print_elem(&res4L);
+		fprintf(PRINTFILE,"Elem %d:\t\t",j);print_elem(&res4L);
 	}
 }
 
@@ -416,4 +460,24 @@ void get_vector(vec *V) {
 	gfp256k1pack410(&elem3_10, &elem3);
 
 	set_vector(V, &elem0_10, &elem1_10, &elem2_10, &elem3_10);
+}
+
+void set_defaults() {
+	a1_4L = a2_4L = a3_4L = a4_4L = E_VALUE;
+	b1_4L = ZERO_4L;
+	b2_4L = ONE_4L;
+	b3_4L = TWO_4L;
+	b4_4L = F_VALUE;
+}
+
+void pack_10l_operands() {
+	gfp256k1pack410(&a1_10L, &a1_4L);
+	gfp256k1pack410(&a2_10L, &a2_4L);
+	gfp256k1pack410(&a3_10L, &a3_4L);
+	gfp256k1pack410(&a4_10L, &a4_4L);
+
+	gfp256k1pack410(&b1_10L, &b1_4L);
+	gfp256k1pack410(&b2_10L, &b2_4L);
+	gfp256k1pack410(&b3_10L, &b3_4L);
+	gfp256k1pack410(&b4_10L, &b4_4L);
 }
