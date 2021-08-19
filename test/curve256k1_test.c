@@ -78,7 +78,9 @@ int main() {
 	#if defined(DEFAULT_TEST_VALUES)
 		fprintf(PRINTFILE, "Default values:\n");
 		fprintf(PRINTFILE, "e = ");print_elem(&E_VALUE);
+		fprintf(PRINTFILE, "  equiv -2 (mod 2^256-2^32-977)\n\n");
 		fprintf(PRINTFILE, "f = ");print_elem(&F_VALUE);
+		fprintf(PRINTFILE, "  equiv -1 (mod 2^256-2^32-977)\n\n");
 	#endif
 
 	// ------------------- Addition on GFp256-32-977 -------------------
