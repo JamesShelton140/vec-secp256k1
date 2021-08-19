@@ -69,7 +69,7 @@ static vec q[NLIMBS_VEC_10] = {0};
 int main() {
 
 	#if !defined(DEFAULT_TEST_VALUES) && !defined(USER_TEST_VALUES)
-		printf("Define test values to be used in 'config.h'\n");
+		printf("ERROR: Define test values to be used in 'config.h'.\n");
 		return 1;
 	#endif
 
