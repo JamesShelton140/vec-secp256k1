@@ -39,7 +39,7 @@ $(EXE): $(OBJFLS)
 	$(ASM) -o $@ $<
 
 ./curve256k1_test.o: ./curve256k1_test.c
-	$(CC) $(INCDRS) $(CFLAGS) -o $@ -c $<
+	$(CC) $(INCDRS) $(CFLAGS) -w -o $@ -c $<
 	
 clean:
 	-rm $(EXE)
