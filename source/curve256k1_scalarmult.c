@@ -105,8 +105,8 @@ fp = fopen("ivalues.txt", "w+");
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
 	gfp256k1pack104(&xQP, &xQP_10L);
 	gfp256k1pack104(&xRP, &xRP_10L);
-	fprintf(STDOUT,"xQP before swap:\t\t");print_elem(&xQP);
-	fprintf(STDOUT,"xRP before swap:\t\t");print_elem(&xRP);
+	fprintf(STDOUT,"xQP before swap:\t\t");print_elem(STDOUT, &xQP);
+	fprintf(STDOUT,"xRP before swap:\t\t");print_elem(STDOUT, &xRP);
 
 		//perform conditional swap
 		if(prevswap) {
@@ -131,8 +131,8 @@ fp = fopen("ivalues.txt", "w+");
 		temp = ZERO_10L;
 	gfp256k1pack104(&xQP, &xQP_10L);
 	gfp256k1pack104(&xRP, &xRP_10L);
-	fprintf(STDOUT,"xQP after swap:\t\t");print_elem(&xQP);
-	fprintf(STDOUT,"xRP after swap:\t\t");print_elem(&xRP);
+	fprintf(STDOUT,"xQP after swap:\t\t");print_elem(STDOUT, &xQP);
+	fprintf(STDOUT,"xRP after swap:\t\t");print_elem(STDOUT, &xRP);
 
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
@@ -161,8 +161,8 @@ fp = fopen("ivalues.txt", "w+");
 	if(G.l[0] == 0 && G.l[1] == 0 && G.l[2] == 0 && G.l[3] == 0) {
 		fprintf(STDOUT,"The neutral zone for G. i = %u\n\n",i);
 	}
-	fprintf(STDOUT,"xQP hex:\t\t");print_elem(&xQP);
-	fprintf(STDOUT,"xRP hex:\t\t");print_elem(&xRP);
+	fprintf(STDOUT,"xQP hex:\t\t");print_elem(STDOUT, &xQP);
+	fprintf(STDOUT,"xRP hex:\t\t");print_elem(STDOUT, &xRP);
 		// preevswap = swap
 		prevswap = swap;
 	// fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
@@ -347,13 +347,13 @@ void shadow_steps(gfe_p256k1_4L *xQP, gfe_p256k1_4L *xRP, gfe_p256k1_4L *yQ, gfe
 
 	gfe_p256k1_4L yP, mxQP;
 	// yQ = -yQ
-	gfp256k1negate(yQ, yQ);
+	gfp256k1neg(yQ, yQ);
 	// yP  = yQ + m*xQP
 	gfp256k1mul(&mxQP, m, xQP);
 	gfp256k1add(&yP, yQ, &mxQP);
     
     // yR = -yR
-	gfp256k1negate(yR, yR);
+	gfp256k1neg(yR, yR);
     
     // dodge = start_dodge = False
     // for st in range(steps-safe_steps-1,-1,-1):

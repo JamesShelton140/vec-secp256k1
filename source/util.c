@@ -2,13 +2,13 @@
 #include "gf_p256k1_pack.h"
 #include "gf_p256k1_arith.h"
 
-void print_elem(const gfe_p256k1_4L *e){
+void print_elem(FILE *file, const gfe_p256k1_4L *e){
 
 	uchar8  i;
 
 	for (i=NLIMBS-1; i>0; --i) 
-		fprintf(STDOUT,"%16llX ",e->l[i]);
-	fprintf(STDOUT,"%16llX \n\n",e->l[0]);
+		fprintf(file, "%16llX ",e->l[i]);
+	fprintf(file, "%16llX \n\n",e->l[0]);
 }
 
 void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const int src){
@@ -26,7 +26,7 @@ void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const 
 	gfp256k1pack104(e4L, e10L);
 }
 
-void print_vector(const vec *V) {
+void print_vector(FILE *file, const vec *V) {
 	gfe_p256k1_4L res4L;
 	gfe_p256k1_10L res10L;
 
@@ -40,6 +40,6 @@ void print_vector(const vec *V) {
 
 		gfp256k1makeunique(&res4L);
 
-		fprintf(STDOUT,"%d hex:\t\t",j);print_elem(&res4L);
+		fprintf(file,"Elem %d:\t\t",j);print_elem(file, &res4L);
 	}
 }

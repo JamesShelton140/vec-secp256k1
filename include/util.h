@@ -8,8 +8,8 @@
 
 #define STDOUT stdout
 
-void print_elem(const gfe_p256k1_4L *);
-void print_vector(const vec *);
+void print_elem(FILE *, const gfe_p256k1_4L *);
+void print_vector(FILE *, const vec *);
 void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
 
 #endif

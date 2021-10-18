@@ -46,9 +46,6 @@
 #include "util.h"
 
 #define change_input(x,y,z)  {x.l[0] = y.l[0]^z.l[0];}
-void print_elem(const gfe_p256k1_4L *);
-void print_vector(const vec *);
-void set_values(uchar8 *, gfe_p256k1_10L *, gfe_p256k1_4L *, const int);
 void get_field_element(gfe_p256k1_4L *);
 void get_vector(vec *);
 void set_defaults();
@@ -75,13 +72,13 @@ int main() {
 		return 1;
 	#endif
 
-	PRINTFILE = fopen("output.txt", "w+");
+	PRINTFILE = fopen("../out/output.txt", "w+");
 
 	#if defined(DEFAULT_TEST_VALUES)
 		fprintf(PRINTFILE, "Default values:\n");
-		fprintf(PRINTFILE, "e = ");print_elem(&E_VALUE);
+		fprintf(PRINTFILE, "e = ");print_elem(PRINTFILE, &E_VALUE);
 		fprintf(PRINTFILE, "  equiv -2 (mod 2^256-2^32-977)\n\n");
-		fprintf(PRINTFILE, "f = ");print_elem(&F_VALUE);
+		fprintf(PRINTFILE, "f = ");print_elem(PRINTFILE, &F_VALUE);
 		fprintf(PRINTFILE, "  equiv -1 (mod 2^256-2^32-977)\n\n");
 	#endif
 
@@ -110,15 +107,15 @@ int main() {
 	gfp256k1makeunique(&res4);
 
 	#if defined(DEFAULT_TEST_VALUES)
-	fprintf(PRINTFILE,"e + 0:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"e + 1:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"e + 2:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"e + f:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"e + 0:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"e + 1:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"e + 2:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"e + f:\t\t");print_elem(PRINTFILE, &res4);
 	#else
-	fprintf(PRINTFILE,"a1 + b1:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"a2 + b2:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"a3 + b3:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"a4 + b4:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"a1 + b1:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"a2 + b2:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"a3 + b3:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"a4 + b4:\t\t");print_elem(PRINTFILE, &res4);
 	#endif
 	#endif
 
@@ -146,7 +143,7 @@ int main() {
 	fprintf(PRINTFILE,"<a1,a2,a3,a4> + <b1,b2,b3,b4>:\n");
 	#endif
 
-	print_vector(q);
+	print_vector(PRINTFILE, q);
 	#endif
 
 	// ------------------- Subtraction on GFp256-32-977 -------------------
@@ -174,15 +171,15 @@ int main() {
 	gfp256k1makeunique(&res4);
 
 	#if defined(DEFAULT_TEST_VALUES)
-	fprintf(PRINTFILE,"e - 0:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"e - 1:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"e - 2:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"e - f:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"e - 0:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"e - 1:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"e - 2:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"e - f:\t\t");print_elem(PRINTFILE, &res4);
 	#else
-	fprintf(PRINTFILE,"a1 - b1:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"a2 - b2:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"a3 - b3:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"a4 - b4:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"a1 - b1:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"a2 - b2:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"a3 - b3:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"a4 - b4:\t\t");print_elem(PRINTFILE, &res4);
 	#endif
 	#endif
 
@@ -210,7 +207,7 @@ int main() {
 	fprintf(PRINTFILE,"<a1,a2,a3,a4> - <b1,b2,b3,b4>:\n");
 	#endif
 
-	print_vector(q);
+	print_vector(PRINTFILE, q);
 	#endif
 
 	// ------------------- Negation on GFp256-32-977 -------------------
@@ -237,15 +234,15 @@ int main() {
 	gfp256k1makeunique(&res4);
 
 	#if defined(DEFAULT_TEST_VALUES)
-	fprintf(PRINTFILE,"-0:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"-1:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"-2:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"-f:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"-0:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"-1:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"-2:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"-f:\t\t");print_elem(PRINTFILE, &res4);
 	#else
-	fprintf(PRINTFILE,"-b1:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"-b2:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"-b3:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"-b4:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"-b1:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"-b2:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"-b3:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"-b4:\t\t");print_elem(PRINTFILE, &res4);
 	#endif
 	#endif
 
@@ -274,15 +271,15 @@ int main() {
 	gfp256k1makeunique(&res4);
 
 	#if defined(DEFAULT_TEST_VALUES)
-	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"e * f:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"e * f:\t\t");print_elem(PRINTFILE, &res4);
 	#else
-	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(PRINTFILE, &res4);
 	#endif
 	#endif
 
@@ -310,7 +307,7 @@ int main() {
 	fprintf(PRINTFILE,"<a1,a2,a3,a4> * <b1,b2,b3,b4>:\n");
 	#endif
 
-	print_vector(q);
+	print_vector(PRINTFILE, q);
 	#endif
 
 
@@ -345,15 +342,15 @@ int main() {
 	gfp256k1makeunique(&res4);
 
 	#if defined(DEFAULT_TEST_VALUES)
-	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"e * 2^64-1:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"e * 0:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"e * 1:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"e * 2:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"e * 2^64-1:\t\t");print_elem(PRINTFILE, &res4);
 	#else
-	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(&res1);
-	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(&res2);
-	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(&res3);
-	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(&res4);
+	fprintf(PRINTFILE,"a1 * b1:\t\t");print_elem(PRINTFILE, &res1);
+	fprintf(PRINTFILE,"a2 * b2:\t\t");print_elem(PRINTFILE, &res2);
+	fprintf(PRINTFILE,"a3 * b3:\t\t");print_elem(PRINTFILE, &res3);
+	fprintf(PRINTFILE,"a4 * b4:\t\t");print_elem(PRINTFILE, &res4);
 	#endif
 	#endif
 
@@ -365,28 +362,28 @@ int main() {
 	gfe_p256k1_4L n4L = {3,0,0,0};
 	gfe_p256k1_4L q4L;
 	
-	curve256k1sub(&res, &n4L, &(gfe_p256k1_4L){0x402DA1732FC9BEBF,0x4551231950B75FC4,1,0});
+	gfp256k1sub(&res1, &n4L, &(gfe_p256k1_4L){0x402DA1732FC9BEBF,0x4551231950B75FC4,1,0});
 
-	gfp256k1makeunique(&res);
+	gfp256k1makeunique(&res1);
 
-	fprintf(STDOUT,"\tn4L - delta in 4-limb form:\n");
-	fprintf(STDOUT,"res hex:\t\t");print_elem(&res);
+	fprintf(PRINTFILE,"\tn4L - delta in 4-limb form:\n");
+	fprintf(PRINTFILE,"res hex:\t\t");print_elem(PRINTFILE, &res1);
 	
 	uchar8 nchar8[CRYPTO_BYTES];
 	uchar8 pchar8[CRYPTO_BYTES];
 	uchar8 qchar8[CRYPTO_BYTES];
 	
-	set_values(nchar8, &e10L, &n4L, 2);
-	set_values(pchar8, &e10L, &Gx, 2);
+	set_values(nchar8, &a1_10L, &n4L, 2);
+	set_values(pchar8, &a1_10L, &Gx, 2);
 
 	curve256k1_scalarmult(qchar8,nchar8,pchar8);
 	
 	//set_values(qchar8, &e10L, &q4L, 0);
-	gfp256k1pack10(&e10L, qchar8);
-	gfp256k1pack104(&q4L, &e10L);
+	gfp256k1pack10(&a1_10L, qchar8);
+	gfp256k1pack104(&q4L, &a1_10L);
 	
-	fprintf(STDOUT,"[n] * G in 4-limb form:\n");
-	fprintf(STDOUT,"hex:\t\t");print_elem(&q4L);
+	fprintf(PRINTFILE,"[n] * G in 4-limb form:\n");
+	fprintf(PRINTFILE,"hex:\t\t");print_elem(PRINTFILE, &q4L);
 	
 	//MEASURE_TIME({curve256k1_scalarmult(qchar8,nchar8,pchar8);});
 	//fprintf(STDOUT,"CPU-cycles for a scalar multiplication: %5.0lf\n\n", ceil(((get_median())/(double)(N))));	
@@ -437,48 +434,6 @@ int main() {
 	fclose(PRINTFILE);
 
 	return 0;
-}
-
-void print_elem(const gfe_p256k1_4L *e){
-
-	uchar8  i;
-
-	for (i=NLIMBS-1; i>0; --i) 
-		fprintf(PRINTFILE,"%16llX ",e->l[i]);
-	fprintf(PRINTFILE,"%16llX \n\n",e->l[0]);
-}
-
-void set_values(uchar8 *echar8, gfe_p256k1_10L *e10L, gfe_p256k1_4L *e4L, const int src){
-	if (src == 0) {
-		gfp256k1pack10(e10L, echar8);
-		gfp256k1pack104(e4L, e10L);
-	}
-
-	if (src == 1) {
-		gfp256k1pack104(e4L, e10L);
-	}
-
-	gfp256k1unpack(echar8, e4L);
-	gfp256k1pack10(e10L, echar8);
-	gfp256k1pack104(e4L, e10L);
-}
-
-void print_vector(const vec *V) {
-	gfe_p256k1_4L res4L;
-	gfe_p256k1_10L res10L;
-
-	int i, j;
-	for(j=0; j<4; j++) {
-		for (i=0; i<NLIMBS_VEC_10; i++) {
-			res10L.l[i] = V[i][j];
-		}
-
-		gfp256k1pack104(&res4L,&res10L);
-
-		gfp256k1makeunique(&res4L);
-
-		fprintf(PRINTFILE,"Elem %d:\t\t",j);print_elem(&res4L);
-	}
 }
 
 void get_field_element(gfe_p256k1_4L *elem) {
