@@ -1,13 +1,9 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the the paper "Efficient 4-way Vectorizations of   |
-| the Montgomery Ladder" authored by   			       	       	      |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
-+-----------------------------------------------------------------------------+
 | Copyright (c) 2020, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
-| Permission to use this code is granted.                          	      |
+| Permission to use this code is granted.                          	      	  |
 |                                                                             |
 | Redistribution and use in source and binary forms, with or without          |
 | modification, are permitted provided that the following conditions are      |
@@ -49,8 +45,8 @@ extern void gfp256k1sub(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1
 extern void gfp256k1add(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 extern void gfp256k1mul(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
 extern void gfp256k1mulc(gfe_p256k1_4L *, const gfe_p256k1_4L *, const uint64 *);
+extern void gfp256k1neg(gfe_p256k1_4L *, const gfe_p256k1_4L *);
 extern void gfp256k1nsqr(gfe_p256k1_4L *, const gfe_p256k1_4L *, const uchar8);
-extern void gfp256k1reduce(gfe_p256k1_4L *);
 extern void gfp256k1makeunique(gfe_p256k1_4L *);
 
 void gfp256k1inv(gfe_p256k1_4L *, const gfe_p256k1_4L *);

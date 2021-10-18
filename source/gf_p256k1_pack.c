@@ -1,13 +1,9 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the the paper "Efficient 4-way Vectorizations of   |
-| the Montgomery Ladder" authored by   			       	       	      |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
-+-----------------------------------------------------------------------------+
 | Copyright (c) 2020, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
-| Permission to use this code is granted.                          	      |
+| Permission to use this code is granted.                          	      	  |
 |                                                                             |
 | Redistribution and use in source and binary forms, with or without          |
 | modification, are permitted provided that the following conditions are      |
@@ -114,8 +110,6 @@ void gfp256k1pack10(gfe_p256k1_10L *v, const uchar8 *u) {
 }
 
 void gfp256k1pack104(gfe_p256k1_4L *v, const gfe_p256k1_10L *u) {
-	// masks:
-	// first 26 bits 0x0000000003FFFFFF
 
 	v->l[0] = ((u->l[0] & 0x0000000003FFFFFF))       | ((u->l[1] & 0x0000000003FFFFFF) << 26) | ((u->l[2] & 0x0000000000000FFF) << 52);
     v->l[1] = ((u->l[2] & 0x0000000003FFF000) >> 12) | ((u->l[3] & 0x0000000003FFFFFF) << 14) | ((u->l[4] & 0x0000000000FFFFFF) << 40);
@@ -124,6 +118,7 @@ void gfp256k1pack104(gfe_p256k1_4L *v, const gfe_p256k1_10L *u) {
 }
 
 void gfp256k1pack410(gfe_p256k1_10L *v, const gfe_p256k1_4L *u) {
+
 	v->l[0] = ((u->l[0] & 0x0000000003FFFFFF));
 	v->l[1] = ((u->l[0] & 0x000FFFFFFC000000) >> 26);
 	v->l[2] = ((u->l[0] & 0xFFF0000000000000) >> 52) | ((u->l[1] & 0x0000000000003FFF) << 12);
@@ -137,7 +132,9 @@ void gfp256k1pack410(gfe_p256k1_10L *v, const gfe_p256k1_4L *u) {
 }
 
 void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, const gfe_p256k1_10L *a2, const gfe_p256k1_10L *a3) {
+
 	uchar8 i;
+
 	for (i=0; i<NLIMBS_VEC_10;++i) {
 		V[i][0] = a0->l[i];
 		V[i][1] = a1->l[i];
@@ -147,7 +144,9 @@ void set_vector(vec *V, const gfe_p256k1_10L *a0, const gfe_p256k1_10L *a1, cons
 }
 
 void unpack_vector(gfe_p256k1_10L *a0, gfe_p256k1_10L *a1, gfe_p256k1_10L *a2, gfe_p256k1_10L *a3, const vec *V) {
+
 	uchar8 i;
+	
 	for (i=0; i<NLIMBS_VEC_10;++i) {
 		a0->l[i] = V[i][0];
 		a1->l[i] = V[i][1];

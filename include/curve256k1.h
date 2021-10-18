@@ -1,13 +1,9 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the the paper "Efficient 4-way Vectorizations of   |
-| the Montgomery Ladder" authored by   			       	       	      |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
-+-----------------------------------------------------------------------------+
 | Copyright (c) 2020, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
-| Permission to use this code is granted.                          	      |
+| Permission to use this code is granted.                          	      	  |
 |                                                                             |
 | Redistribution and use in source and binary forms, with or without          |
 | modification, are permitted provided that the following conditions are      |
@@ -44,12 +40,6 @@
 #include "gf_p256k1_type.h"
 
 #define CRYPTO_BYTES 32
-
-extern void curve256k1_mladder(vec *, const vec *, const uchar8 *);
-int curve256k1_scalarmult(uchar8 *, const uchar8 *, const uchar8 *);
-
-extern void curve256k1sub(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
-extern void curve256k1subc(gfe_p256k1_4L *, const gfe_p256k1_4L *);
 
 static const gfe_p256k1_4L twoinv = {0xFFFFFFFF7FFFFE18, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF};
 static const gfe_p256k1_4L threeinv = {0xAAAAAAA9FFFFFD75, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA};

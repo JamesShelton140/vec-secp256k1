@@ -1,13 +1,11 @@
 /*
 +-----------------------------------------------------------------------------+
-| This code corresponds to the Galois field F(2^256-2^32-977) from the paper  |
-| "Efficient Arithmetic In (Pseudo-)Mersenne Prime Order Fields" authored by  |
-| Kaushik Nath,  Indian Statistical Institute, Kolkata, India, and            |
-| Palash Sarkar, Indian Statistical Institute, Kolkata, India.	              |
+| This code has been written by modifying "gf_p256k1_mul.s"                   |
 +-----------------------------------------------------------------------------+
 | Copyright (c) 2018, Kaushik Nath and Palash Sarkar.                         |
+| 				2021, Timothy James Shelton.								  |
 |                                                                             |
-| Permission to use this code is granted.                          	      |
+| Permission to use this code is granted.                          	      	  |
 |                                                                             |
 | Redistribution and use in source and binary forms, with or without          |
 | modification, are permitted provided that the following conditions are      |
@@ -35,9 +33,10 @@
 | NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,| 
 | EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                          |
 +-----------------------------------------------------------------------------+
-q = n * c
-On call: %rdi = &q, %rsi = &n, %rdx = &c
 */
+// q = n * c
+// On call: %rdi = &q, %rsi = &n, %rdx = &c
+
 
 .p2align 5
 .globl gfp256k1mulc
