@@ -63,7 +63,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Prepare n for non-zero initial state ladder
 	gfp256k1pack10(&n_10L, n);
 	gfp256k1pack104(&n_4L, &n_10L);
-	//curve256k1subc(&n_4L, &n_4L);
+	curve256k1subc(&n_4L, &n_4L);
 	//gfp256k1makeunique(&n_4L);
 
 	gfp256k1pack10(&xP_10L, p);
@@ -86,27 +86,27 @@ fp = fopen("ivalues.txt", "w+");
 	uint64 swap; uint64 mask, biti;
 	int i, bit, limb;
 	for(i=255; i >= 0; i--) {
-	fprintf(STDOUT,"i:\t\t %u\n",i);
-		// swap bit calc
-		// select bit at position i
-        limb = i/64;
-	// fprintf(STDOUT,"limb:\t\t %u\n",limb);
-        bit = i%64;
-	// fprintf(STDOUT,"bit:\t\t %u\n",bit);
-		// swap = not(bit i)
-        swap = (uint64)1 ^ ((uint64)1 & (n_4L.l[limb] >> bit));
-	// mask = (uint64)1 << bit;
-    // biti = mask & n_4L.l[limb];
-	// fprintf(STDOUT,"bit i:\t\t %llu\n",biti>>bit);
-	// fprintf(STDOUT,"swap:\t\t %llu\n",swap);
-		// prevswap = prevswap xor swap
-	// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
-		prevswap ^= swap;
-	// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
-	gfp256k1pack104(&xQP, &xQP_10L);
-	gfp256k1pack104(&xRP, &xRP_10L);
-	fprintf(STDOUT,"xQP before swap:\t\t");print_elem(STDOUT, &xQP);
-	fprintf(STDOUT,"xRP before swap:\t\t");print_elem(STDOUT, &xRP);
+		fprintf(STDOUT,"i:\t\t %u\n",i);
+			// swap bit calc
+			// select bit at position i
+			limb = i/64;
+		// fprintf(STDOUT,"limb:\t\t %u\n",limb);
+			bit = i%64;
+		// fprintf(STDOUT,"bit:\t\t %u\n",bit);
+			// swap = not(bit i)
+			swap = (uint64)1 ^ ((uint64)1 & (n_4L.l[limb] >> bit));
+		// mask = (uint64)1 << bit;
+		// biti = mask & n_4L.l[limb];
+		// fprintf(STDOUT,"bit i:\t\t %llu\n",biti>>bit);
+		// fprintf(STDOUT,"swap:\t\t %llu\n",swap);
+			// prevswap = prevswap xor swap
+		// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
+			prevswap ^= swap;
+		// fprintf(STDOUT,"prevswap:\t\t %llu\n",prevswap);
+		gfp256k1pack104(&xQP, &xQP_10L);
+		gfp256k1pack104(&xRP, &xRP_10L);
+		fprintf(STDOUT,"xQP before swap:\t\t");print_elem(STDOUT, &xQP);
+		fprintf(STDOUT,"xRP before swap:\t\t");print_elem(STDOUT, &xRP);
 
 		//perform conditional swap
 		if(prevswap) {
@@ -129,10 +129,10 @@ fp = fopen("ivalues.txt", "w+");
 			yQ_10L = temp;
 		}
 		temp = ZERO_10L;
-	gfp256k1pack104(&xQP, &xQP_10L);
-	gfp256k1pack104(&xRP, &xRP_10L);
-	fprintf(STDOUT,"xQP after swap:\t\t");print_elem(STDOUT, &xQP);
-	fprintf(STDOUT,"xRP after swap:\t\t");print_elem(STDOUT, &xRP);
+		gfp256k1pack104(&xQP, &xQP_10L);
+		gfp256k1pack104(&xRP, &xRP_10L);
+		fprintf(STDOUT,"xQP after swap:\t\t");print_elem(STDOUT, &xQP);
+		fprintf(STDOUT,"xRP after swap:\t\t");print_elem(STDOUT, &xRP);
 
 		QR_ladder_step(&xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L);
 
@@ -140,32 +140,32 @@ fp = fopen("ivalues.txt", "w+");
 			calculate_M(&M, &xQP_10L, &xRP_10L, &yQ_10L, &yR_10L, &G_10L, swap);
 			fprintf(STDOUT,"making M\n");
 		}
-	
-	gfp256k1pack104(&yQ, &yQ_10L);
-	gfp256k1pack104(&yR, &yR_10L);
-	gfp256k1pack104(&xQP, &xQP_10L);
-	gfp256k1pack104(&xRP, &xRP_10L);
-	gfp256k1pack104(&G, &G_10L);
-	if(yQ.l[0] == 0 && yQ.l[1] == 0 && yQ.l[2] == 0 && yQ.l[3] == 0) {
-		fprintf(STDOUT,"The neutral zone for yQ. i = %u\n\n",i);
-	}
-	if(yR.l[0] == 0 && yR.l[1] == 0 && yR.l[2] == 0 && yR.l[3] == 0) {
-		fprintf(STDOUT,"The neutral zone for yR. i = %u\n\n",i);
-	}
-	if(xQP.l[0] == 0 && xQP.l[1] == 0 && xQP.l[2] == 0 && xQP.l[3] == 0) {
-		fprintf(STDOUT,"The neutral zone for xQP. i = %u\n\n",i);
-	}
-	if(xRP.l[0] == 0 && xRP.l[1] == 0 && xRP.l[2] == 0 && xRP.l[3] == 0) {
-		fprintf(STDOUT,"The neutral zone for xRP. i = %u\n\n",i);
-	}
-	if(G.l[0] == 0 && G.l[1] == 0 && G.l[2] == 0 && G.l[3] == 0) {
-		fprintf(STDOUT,"The neutral zone for G. i = %u\n\n",i);
-	}
-	fprintf(STDOUT,"xQP hex:\t\t");print_elem(STDOUT, &xQP);
-	fprintf(STDOUT,"xRP hex:\t\t");print_elem(STDOUT, &xRP);
-		// preevswap = swap
-		prevswap = swap;
-	// fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
+		
+		gfp256k1pack104(&yQ, &yQ_10L);
+		gfp256k1pack104(&yR, &yR_10L);
+		gfp256k1pack104(&xQP, &xQP_10L);
+		gfp256k1pack104(&xRP, &xRP_10L);
+		gfp256k1pack104(&G, &G_10L);
+		if(yQ.l[0] == 0 && yQ.l[1] == 0 && yQ.l[2] == 0 && yQ.l[3] == 0) {
+			fprintf(STDOUT,"The neutral zone for yQ. i = %u\n\n",i);
+		}
+		if(yR.l[0] == 0 && yR.l[1] == 0 && yR.l[2] == 0 && yR.l[3] == 0) {
+			fprintf(STDOUT,"The neutral zone for yR. i = %u\n\n",i);
+		}
+		if(xQP.l[0] == 0 && xQP.l[1] == 0 && xQP.l[2] == 0 && xQP.l[3] == 0) {
+			fprintf(STDOUT,"The neutral zone for xQP. i = %u\n\n",i);
+		}
+		if(xRP.l[0] == 0 && xRP.l[1] == 0 && xRP.l[2] == 0 && xRP.l[3] == 0) {
+			fprintf(STDOUT,"The neutral zone for xRP. i = %u\n\n",i);
+		}
+		if(G.l[0] == 0 && G.l[1] == 0 && G.l[2] == 0 && G.l[3] == 0) {
+			fprintf(STDOUT,"The neutral zone for G. i = %u\n\n",i);
+		}
+		fprintf(STDOUT,"xQP hex:\t\t");print_elem(STDOUT, &xQP);
+		fprintf(STDOUT,"xRP hex:\t\t");print_elem(STDOUT, &xRP);
+			// preevswap = swap
+			prevswap = swap;
+		// fprintf(STDOUT,"prevswap:\t\t %llu\n\n",prevswap);
 	}
 fclose(fp);
 

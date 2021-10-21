@@ -41,6 +41,12 @@
 
 #define CRYPTO_BYTES 32
 
+extern void curve256k1_mladder(vec *, const vec *, const uchar8 *);
+int curve256k1_scalarmult(uchar8 *, const uchar8 *, const uchar8 *);
+
+extern void curve256k1sub(gfe_p256k1_4L *, const gfe_p256k1_4L *, const gfe_p256k1_4L *);
+extern void curve256k1subc(gfe_p256k1_4L *, const gfe_p256k1_4L *);
+
 static const gfe_p256k1_4L twoinv = {0xFFFFFFFF7FFFFE18, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0x7FFFFFFFFFFFFFFF};
 static const gfe_p256k1_4L threeinv = {0xAAAAAAA9FFFFFD75, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA, 0xAAAAAAAAAAAAAAAA};
 static const gfe_p256k1_4L delta = {0x1000003D1,0,0,0};
