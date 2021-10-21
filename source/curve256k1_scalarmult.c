@@ -63,7 +63,7 @@ int curve256k1_scalarmult(uchar8 *q, const uchar8 *n, const uchar8 *p) {
 	// Prepare n for non-zero initial state ladder
 	gfp256k1pack10(&n_10L, n);
 	gfp256k1pack104(&n_4L, &n_10L);
-	curve256k1subc(&n_4L, &n_4L);
+	// curve256k1subc(&n_4L, &n_4L);
 	//gfp256k1makeunique(&n_4L);
 
 	gfp256k1pack10(&xP_10L, p);
@@ -128,7 +128,7 @@ fp = fopen("ivalues.txt", "w+");
 			yR_10L =yR_10L;
 			yQ_10L = temp;
 		}
-		temp = ZERO_10L;
+		temp = (gfe_p256k1_10L){0,0,0,0,0,0,0,0,0,0};
 		gfp256k1pack104(&xQP, &xQP_10L);
 		gfp256k1pack104(&xRP, &xRP_10L);
 		fprintf(STDOUT,"xQP after swap:\t\t");print_elem(STDOUT, &xQP);
